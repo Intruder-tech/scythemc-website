@@ -5,23 +5,24 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
+/* Two-color palette: BLUE (#0088ff) and YELLOW (#ffcc00) only */
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-blue text-primary-foreground hover:bg-blue/90 shadow-[0_0_20px_rgba(0,136,255,0.4)]",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-yellow text-[#06070d] hover:bg-yellow/90 shadow-[0_0_20px_rgba(255,204,0,0.4)]",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-border bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        cyan: "bg-cyan-400 text-black hover:bg-cyan-300 shadow-[0_0_20px_rgba(0,245,255,0.4)]",
-        violet: "bg-violet-500 text-white hover:bg-violet-400 shadow-[0_0_20px_rgba(139,92,246,0.4)]",
-        gold: "bg-amber-500 text-black hover:bg-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.4)]",
+        link: "text-blue underline-offset-4 hover:underline",
+        blue: "bg-blue text-[#06070d] hover:bg-blue/90 shadow-[0_0_20px_rgba(0,136,255,0.5)]",
+        yellow:
+          "bg-yellow text-[#06070d] hover:bg-yellow/90 shadow-[0_0_20px_rgba(255,204,0,0.5)]",
       },
       size: {
         default: "h-10 px-4 py-2",

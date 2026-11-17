@@ -4,10 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-/**
- * Add new screenshots here. They will automatically appear in the carousel.
- * Place image files in public/screenshots/ and add an entry below.
- */
 export const SCREENSHOTS: Array<{ src: string; alt: string }> = [
   {
     src: "/screenshots/2026-11-03_14.05.04.png",
@@ -30,11 +26,9 @@ export default function ScreenshotCarousel({
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Auto-advance active indicator based on scroll position
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
-
     const handleScroll = () => {
       if (!container) return;
       const { scrollLeft, clientWidth, scrollWidth } = container;
@@ -42,7 +36,6 @@ export default function ScreenshotCarousel({
       const index = Math.round(scrollProgress * (SCREENSHOTS.length - 1));
       setActiveIndex(Math.max(0, Math.min(SCREENSHOTS.length - 1, index)));
     };
-
     container.addEventListener("scroll", handleScroll, { passive: true });
     return () => container.removeEventListener("scroll", handleScroll);
   }, []);
@@ -57,24 +50,23 @@ export default function ScreenshotCarousel({
   return (
     <section
       className={[
-        "relative py-20 border-y border-border/50 bg-bg-card/30",
+        "relative py-20 border-y border-blue/20 bg-[#0b0d18]/40",
         className,
       ].join(" ")}
     >
       <div className="max-w-[1400px] mx-auto px-6">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-outfit font-bold tracking-tight text-[#f1f5f9] uppercase">
+          <h2 className="text-2xl font-outfit font-bold tracking-tight text-[#ffffff] uppercase">
             Network Gallery
           </h2>
-          <p className="text-xs font-silkscreen tracking-widest text-[#00f5ff]/70 uppercase">
+          <p className="text-xs font-silkscreen tracking-widest text-[#0088ff] uppercase">
             Scythe MC Network
           </p>
         </div>
 
-        {/* Carousel container */}
         <div
           ref={scrollRef}
-          className="relative overflow-hidden rounded-2xl border border-border bg-black/40 shadow-[0_0_40px_rgba(0,0,0,0.6)]"
+          className="relative overflow-hidden rounded-2xl border border-blue/40 bg-[#06070d]/60 shadow-[0_0_40px_rgba(0,0,0,0.6)]"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -94,7 +86,7 @@ export default function ScreenshotCarousel({
                 className="flex flex-col items-center"
               >
                 <div
-                  className="relative group relative overflow-hidden rounded-xl border border-border/60 bg-black/20 shadow-lg"
+                  className="relative group overflow-hidden rounded-xl border border-blue/30 bg-[#000000]/40 shadow-lg h-[300px] md:h-[340px] w-full"
                 >
                   <Image
                     src={shot.src}
@@ -104,8 +96,8 @@ export default function ScreenshotCarousel({
                     className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                     priority={idx === 0}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <span className="text-sm font-outfit text-[#f1f5f9]">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#06070d]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <span className="text-sm font-outfit text-[#ffffff]">
                       {shot.alt}
                     </span>
                   </div>
@@ -113,7 +105,7 @@ export default function ScreenshotCarousel({
                 <span
                   className={`mt-3 text-xs font-silkscreen tracking-widest ${
                     activeIndex === idx
-                      ? "text-[#00f5ff]"
+                      ? "text-[#0088ff]"
                       : "text-[#64748b]"
                   }`}
                 >
@@ -123,13 +115,12 @@ export default function ScreenshotCarousel({
             ))}
           </motion.div>
 
-          {/* Navigation arrows */}
           {SCREENSHOTS.length > 1 && (
             <>
               <button
                 onClick={() => scrollBy(-1)}
                 disabled={activeIndex === 0}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-border bg-black/60 backdrop-blur text-[#00f5ff] hover:bg-[#00f5ff] hover:text-black transition-all disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center shadow-[0_0_20px_rgba(0,245,255,0.3)]"
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-blue/40 bg-[#06070d]/80 backdrop-blur text-[#0088ff] hover:bg-blue hover:text-[#06070d] transition-all disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center shadow-[0_0_20px_rgba(0,136,255,0.3)]"
                 aria-label="Previous screenshot"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,7 +130,7 @@ export default function ScreenshotCarousel({
               <button
                 onClick={() => scrollBy(1)}
                 disabled={activeIndex === SCREENSHOTS.length - 1}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-border bg-black/60 backdrop-blur text-[#00f5ff] hover:bg-[#00f5ff] hover:text-black transition-all disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center shadow-[0_0_20px_rgba(0,245,255,0.3)]"
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-blue/40 bg-[#06070d]/80 backdrop-blur text-[#0088ff] hover:bg-blue hover:text-[#06070d] transition-all disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center shadow-[0_0_20px_rgba(0,136,255,0.3)]"
                 aria-label="Next screenshot"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -149,7 +140,6 @@ export default function ScreenshotCarousel({
             </>
           )}
 
-          {/* Pagination dots */}
           {SCREENSHOTS.length > 1 && (
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-20">
               {SCREENSHOTS.map((_, idx) => (
@@ -165,8 +155,8 @@ export default function ScreenshotCarousel({
                   }}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
                     activeIndex === idx
-                      ? "bg-[#00f5ff] w-6 shadow-[0_0_10px_rgba(0,245,255,0.6)]"
-                      : "bg-border/50 hover:bg-[#00f5ff]/50"
+                      ? "bg-[#0088ff] w-6 shadow-[0_0_10px_rgba(0,136,255,0.6)]"
+                      : "bg-blue/30 hover:bg-[#0088ff]"
                   }`}
                   aria-label={`Go to screenshot ${idx + 1}`}
                 />

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-export const LOADING_TOTAL_MS = 3000; // logo show duration
+export const LOADING_TOTAL_MS = 3000;
 
 export default function LoadingScreen({
   onComplete,
@@ -14,11 +14,8 @@ export default function LoadingScreen({
   const [stage, setStage] = useState<"logo" | "text" | "done">("logo");
 
   useEffect(() => {
-    // Stage 1: Logo shows for ~3 seconds
     const logoTimer = setTimeout(() => setStage("text"), LOADING_TOTAL_MS);
-    // Stage 2: "SCYTHE MC" text shows for ~2 seconds, then done
     const textTimer = setTimeout(() => setStage("done"), LOADING_TOTAL_MS + 2200);
-
     return () => {
       clearTimeout(logoTimer);
       clearTimeout(textTimer);
@@ -27,7 +24,7 @@ export default function LoadingScreen({
 
   useEffect(() => {
     if (stage === "done") {
-      const completeTimer = setTimeout(onComplete, 600); // let fade-out finish
+      const completeTimer = setTimeout(onComplete, 600);
       return () => clearTimeout(completeTimer);
     }
   }, [stage, onComplete]);
@@ -49,10 +46,10 @@ export default function LoadingScreen({
             alt="Scythe MC Logo"
             width={2048}
             height={2048}
-            className="w-40 h-40 object-contain drop-shadow-[0_0_40px_rgba(0,245,255,0.6)]"
+            className="w-40 h-40 object-contain drop-shadow-[0_0_40px_rgba(0,136,255,0.6)]"
             priority
           />
-          <span className="mt-6 text-xs font-silkscreen tracking-widest text-[#00f5ff]/70 uppercase">
+          <span className="mt-6 text-xs font-silkscreen tracking-widest text-[#0088ff]/70 uppercase">
             INITIALIZING NETWORK…
           </span>
         </motion.div>
@@ -69,7 +66,7 @@ export default function LoadingScreen({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="text-5xl md:text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] via-[#8b5cf6] to-[#f43f5e] drop-shadow-[0_0_25px_rgba(0,245,255,0.5)] font-outfit"
+            className="text-5xl md:text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#0088ff] to-[#ffcc00] drop-shadow-[0_0_25px_rgba(0,136,255,0.5)] font-outfit"
           >
             SCYTHE
           </motion.span>
@@ -78,11 +75,11 @@ export default function LoadingScreen({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ delay: 0.15 }}
-            className="text-5xl md:text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] via-[#8b5cf6] to-[#f43f5e] drop-shadow-[0_0_25px_rgba(0,245,255,0.5)] font-outfit"
+            className="text-5xl md:text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#0088ff] to-[#ffcc00] drop-shadow-[0_0_25px_rgba(0,136,255,0.5)] font-outfit"
           >
             MC
           </motion.span>
-          <span className="text-xs font-silkscreen tracking-widest text-[#00f5ff]/50 uppercase">
+          <span className="text-xs font-silkscreen tracking-widest text-[#0088ff]/50 uppercase">
             PLAY.SCYTHEMC.FUN:25565
           </span>
         </motion.div>

@@ -1,53 +1,51 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   SCYTHE MC • TWO-COLOR PALETTE (logo-derived only)
+   BLUE  = #0088FF  (scythe blade / "SCYTHE" text)
+   YELLOW = #FFCC00 ("MC" text)
+   Every chromatic color on the site is one of these two hues (alpha variants
+   for depth). Backgrounds stay near-black; text stays neutral.
+   ========================================================================== */
+
 @theme {
-  /* --- Design Tokens (Scythe MC Dark Gaming Aesthetic) --- */
+  --color-blue: #0088ff;
+  --color-yellow: #ffcc00;
+
   --color-bg-main: #06070d;
   --color-bg-card: #0b0d18;
   --color-bg-card-hover: #101324;
   --color-bg-surface: #14182e;
-  --color-bg-header: rgba(7, 8, 15, 0.94);
+  --color-bg-header: rgba(6, 7, 13, 0.94);
 
-  --color-border-subtle: rgba(255, 255, 255, 0.08);
-  --color-border-glow: rgba(0, 245, 255, 0.3);
-  --color-border-violet: rgba(139, 92, 246, 0.4);
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-border-blue: rgba(0, 136, 255, 0.35);
+  --color-border-yellow: rgba(255, 204, 0, 0.35);
 
   --color-text-main: #f1f5f9;
   --color-text-muted: #94a3b8;
   --color-text-dim: #64748b;
 
-  --color-accent-cyan: #00f5ff;
-  --color-accent-violet: #8b5cf6;
-  --color-accent-crimson: #f43f5e;
-  --color-accent-gold: #f59e0b;
-  --color-accent-green: #10b981;
-  --color-accent-discord: #5865f2;
-
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-
-  /* shadcn/ui theme tokens */
+  /* shadcn theme tokens (two-tone) */
   --background: #06070d;
   --foreground: #f1f5f9;
   --card: #0b0d18;
   --card-foreground: #f1f5f9;
   --popover: #0b0d18;
   --popover-foreground: #f1f5f9;
-  --primary: #00f5ff;
+  --primary: #0088ff;
   --primary-foreground: #06070d;
   --secondary: #14182e;
   --secondary-foreground: #f1f5f9;
   --muted: #14182e;
   --muted-foreground: #94a3b8;
-  --accent: #14182e;
-  --accent-foreground: #f1f5f9;
-  --destructive: #f43f5e;
-  --destructive-foreground: #f1f5f9;
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.08);
-  --ring: #00f5ff;
+  --accent: #ffcc00;
+  --accent-foreground: #06070d;
+  --destructive: #ffcc00;
+  --destructive-foreground: #06070d;
+  --border: rgba(0, 136, 255, 0.25);
+  --input: rgba(0, 136, 255, 0.25);
+  --ring: #0088ff;
   --radius: 0.625rem;
 }
 

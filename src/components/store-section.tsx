@@ -11,9 +11,9 @@ const ranks = [
     name: "VIP Rank",
     price: 169,
     badge: "VIP",
-    badgeColor: "bg-[#4ade80]/20 text-[#4ade80] border-[#4ade80]/40",
+    badgeColor: "bg-blue/20 text-[#0088ff] border border-blue/40",
     icon: Shield,
-    iconColor: "text-[#4ade80]",
+    iconColor: "text-[#0088ff]",
     stats: [
       { label: "Home", val: "3" },
       { label: "AH Listings", val: "4" },
@@ -34,9 +34,9 @@ const ranks = [
     name: "VIP+ Rank",
     price: 269,
     badge: "VIP+",
-    badgeColor: "bg-[#38bdf8]/20 text-[#38bdf8] border-[#38bdf8]/40",
+    badgeColor: "bg-blue/20 text-[#0088ff] border border-blue/40",
     icon: ShieldHalf,
-    iconColor: "text-[#38bdf8]",
+    iconColor: "text-[#0088ff]",
     stats: [
       { label: "Home", val: "4" },
       { label: "AH Listing", val: "4" },
@@ -58,9 +58,9 @@ const ranks = [
     name: "MVP Rank",
     price: 399,
     badge: "MVP",
-    badgeColor: "bg-[#c084fc]/20 text-[#c084fc] border-[#c084fc]/40",
+    badgeColor: "bg-[#ffcc00]/20 text-[#ffcc00] border border-[#ffcc00]/40",
     icon: Trophy,
-    iconColor: "text-[#c084fc]",
+    iconColor: "text-[#ffcc00]",
     stats: [
       { label: "Home", val: "5" },
       { label: "AH Listings", val: "5" },
@@ -82,9 +82,9 @@ const ranks = [
     name: "MVP+ Rank",
     price: 449,
     badge: "MVP+",
-    badgeColor: "bg-[#f472b6]/20 text-[#f472b6] border-[#f472b6]/40",
+    badgeColor: "bg-[#ffcc00]/20 text-[#ffcc00] border border-[#ffcc00]/40",
     icon: Medal,
-    iconColor: "text-[#f472b6]",
+    iconColor: "text-[#ffcc00]",
     stats: [
       { label: "Home", val: "6" },
       { label: "AH Listings", val: "5" },
@@ -101,7 +101,7 @@ const ranks = [
       "Exclusive Aura & Particle Cosmetics",
     ],
     commands: ["/home 6", "/ah 5", "/kits", "/fly (Hub)", "/repair"],
-    variant: "cyan" as const,
+    variant: "yellow" as const,
     highlight: true,
   },
   {
@@ -109,9 +109,9 @@ const ranks = [
     name: "THE SCYTHE",
     price: 799,
     badge: "THE SCYTHE",
-    badgeColor: "bg-gradient-to-r from-[#f43f5e]/25 to-[#8b5cf6]/25 text-[#ff5e7e] border-[#ff5e7e] shadow-[0_0_15px_rgba(255,94,126,0.4)]",
+    badgeColor: "bg-gradient-to-r from-[#0088ff]/30 to-[#ffcc00]/30 text-[#ffffff] border border-blue/50 shadow-[0_0_15px_rgba(0,136,255,0.4)]",
     icon: Crown,
-    iconColor: "text-[#ff5e7e]",
+    iconColor: "text-[#ffffff]",
     stats: [
       { label: "Home", val: "8" },
       { label: "AH Listing", val: "8" },
@@ -129,17 +129,17 @@ const ranks = [
       "Sovereign Particle Trails & Wings",
     ],
     commands: ["/home 8", "/ah 8", "/kits thescythe", "/fly", "/nick"],
-    variant: "violet" as const,
+    variant: "blue" as const,
     supreme: true,
   },
 ];
 
 export default function StoreSection() {
   return (
-    <section id="store" className="bg-[#06070d] border-y border-border/50 py-20">
+    <section id="store" className="bg-[#06070d] border-y border-blue/20 py-20">
       <div className="max-w-[1300px] mx-auto px-6">
         <div className="text-center mb-12">
-          <span className="font-silkscreen text-[11px] font-bold tracking-widest text-[#00f5ff] uppercase">
+          <span className="font-silkscreen text-[11px] font-bold tracking-widest text-[#0088ff] uppercase">
             Official Server Store
           </span>
           <h2 className="text-3xl md:text-4xl font-outfit font-black tracking-tight text-[#ffffff] uppercase mt-3">
@@ -158,8 +158,8 @@ export default function StoreSection() {
               key={cat}
               className={`font-silkscreen text-xs font-bold tracking-wider px-5 py-2.5 rounded-lg border transition-all ${
                 i === 0
-                  ? "bg-[#00f5ff]/12 text-white border-[#00f5ff] shadow-[0_0_20px_rgba(0,245,255,0.25)]"
-                  : "bg-[#111428] text-[#94a3b8] border-border hover:bg-[#171b38] hover:text-white hover:border-[#00f5ff]/30"
+                  ? "bg-blue/15 text-[#0088ff] border-blue/40 shadow-[0_0_20px_rgba(0,136,255,0.25)]"
+                  : "bg-[#111428] text-[#94a3b8] border-blue/20 hover:bg-[#171b38] hover:text-[#0088ff] hover:border-blue/40"
               }`}
             >
               {cat}
@@ -178,34 +178,34 @@ export default function StoreSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: ranks.indexOf(rank) * 0.05 }}
                 whileHover={{ y: -6 }}
-                className={`rounded-xl border p-6 flex flex-col gap-4 relative ${isHighlight ? "border-transparent bg-gradient-to-b from-[#181226] to-[#0d0c18] shadow-[0_0_30px_rgba(244,114,182,0.15)]" : "bg-[#0b0d18] border-border hover:border-[#ffffff]/20 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)]"}`}
+                className={`rounded-xl border p-6 flex flex-col gap-4 relative ${isHighlight ? "border-transparent bg-gradient-to-b from-[#181226] to-[#0d0c18] shadow-[0_0_30px_rgba(255,204,0,0.15)]" : "bg-[#0b0d18] border-blue/30 hover:border-blue/60 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)]"}`}
               >
                 {rank.supreme && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-gradient-to-r from-[#f43f5e] to-[#00f5ff] text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-[0_2px_12px_rgba(244,63,94,0.6)]">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-gradient-to-r from-[#0088ff] to-[#ffcc00] text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-[0_2px_12px_rgba(0,136,255,0.6)]">
                     ULTIMATE TIER
                   </div>
                 )}
                 {rank.highlight && !rank.supreme && (
-                  <div className="absolute -top-3 right-3 z-10 bg-gradient-to-r from-[#ec4899] to-[#8b5cf6] text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-[0_2px_10px_rgba(236,72,153,0.6)]">
+                  <div className="absolute -top-3 right-3 z-10 bg-[#ffcc00] text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full text-[#06070d] shadow-[0_2px_10px_rgba(255,204,0,0.6)]">
                     MOST POPULAR
                   </div>
                 )}
                 <div className="flex items-center gap-2 mb-1">
                   <rank.icon className="w-4 h-4 ${rank.iconColor}" />
-                  <span className={`font-silkscreen text-[10px] font-bold uppercase ${rank.badgeColor.replace("border-", "")} border`}>
+                  <span className={`font-silkscreen text-[10px] font-bold uppercase border ${rank.badgeColor}`}>
                     {rank.badge}
                   </span>
                 </div>
                 <h3 className="font-silkscreen text-sm font-bold text-[#ffffff]">{rank.name}</h3>
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-[#00f5ff] font-outfit font-bold">₹</span>
+                  <span className="text-[#0088ff] font-outfit font-bold">₹</span>
                   <span className="text-2xl font-outfit font-black text-[#ffffff]">{rank.price}</span>
                   <span className="text-xs font-silkscreen text-[#94a3b8] uppercase tracking-wider">/ Monthly</span>
                 </div>
-                <div className="grid grid-cols-2 gap-2 p-3 bg-[#000000]/40 border border-[#ffffff]/10 rounded-lg">
+                <div className="grid grid-cols-2 gap-2 p-3 bg-[#000000]/40 border border-blue/20 rounded-lg">
                   {rank.stats.map((s) => (
-                    <div key={s.label} className="flex items-center gap-1.5 p-1.5 bg-[#ffffff]/03 border border-[#ffffff]/05 rounded text-[10px] text-[#cbd5e1]">
-                      <span className="w-3 h-3 text-[#00f5ff]">
+                    <div key={s.label} className="flex items-center gap-1.5 p-1.5 bg-[#ffffff]/03 border border-blue/20 rounded text-[10px] text-[#cbd5e1]">
+                      <span className="w-3 h-3 text-[#0088ff]">
                         <House size={14} />
                       </span>
                       <span>{s.label}: </span>
@@ -216,7 +216,7 @@ export default function StoreSection() {
                 <div className="flex-1">
                   {rank.perks.map((p, i) => (
                     <div key={i} className="flex items-start gap-1.5 my-1">
-                      <span className="w-3 h-3 text-[#10b981] text-[10px]">✓</span>
+                      <span className="w-3 h-3 text-[#ffcc00] text-[10px]">✓</span>
                       <span className="text-xs text-[#cbd5e1] leading-tight">{p}</span>
                     </div>
                   ))}
@@ -224,7 +224,7 @@ export default function StoreSection() {
                 <Button
                   variant={rank.variant}
                   size="sm"
-                  className="w-full font-outfit font-bold uppercase tracking-wide mt-2 shadow-[0_4px_15px_rgba(0,245,255,0.25)] hover:shadow-[0_6px_25px_rgba(0,245,255,0.45)]"
+                  className="w-full font-outfit font-bold uppercase tracking-wide mt-2 shadow-[0_4px_15px_rgba(0,136,255,0.25)] hover:shadow-[0_6px_25px_rgba(0,136,255,0.45)]"
                 >
                   ADD TO CART (₹{rank.price})
                 </Button>
