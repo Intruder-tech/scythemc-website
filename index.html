@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Official Scythe Store • Minecraft Server & Network</title>
+  <meta name="description" content="Official Scythe Store (PLAY.SCYTHEMC.FUN). Purchase VIP, MVP, THE SCYTHE ranks, Crate Keys, participate in tournaments, and explore Scythe Bedwars and Scythe Practice.">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  
+  <!-- Google Fonts: Silkscreen & Press Start 2P for Pixel UI, Plus Jakarta Sans for Ultra-Clean Content -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+  <!-- Ambient Canvas Background for Minecraft Cyber Embers (Zero Static Banner) -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Audio FX Toggle & Ambient Sound Synth Indicator -->
+  <button type="button" class="audio-widget" id="audioToggle" onclick="toggleAudio(event)" aria-label="Toggle Sound Effects" title="Toggle Sound FX">
+    <i class="fa-solid fa-volume-high" id="audioIcon"></i>
+    <span class="audio-tooltip">Sound FX: ON</span>
+  </button>
+
+  <!-- Announcement Bar / Ticker -->
+  <aside class="announcement-bar" aria-label="Server Announcements">
+    <div class="announcement-track">
+      <span class="ticker-item"><i class="fa-solid fa-crown text-gold"></i> SERVER RANKS ARE NOW LIVE! VIP (₹169), VIP+ (₹269), MVP (₹399), MVP+ (₹449), THE SCYTHE (₹799)!</span>
+      <span class="ticker-dot">•</span>
+      <span class="ticker-item"><i class="fa-solid fa-egg text-accent"></i> SPAWNERS & SPAWN EGG STORE IS LIVE! SKELETON (₹10), CREEPER (₹15), IRON GOLEM (₹20), EGGS (₹50)!</span>
+      <span class="ticker-dot">•</span>
+      <span class="ticker-item"><i class="fa-solid fa-bolt text-accent"></i> SEASON 1 LAUNCH: USE CODE <strong>SCYTHE20</strong> FOR 20% OFF!</span>
+      <span class="ticker-dot">•</span>
+      <span class="ticker-item"><i class="fa-solid fa-ticket text-cyan"></i> UPI PAYMENTS ACTIVE: SCAN QR & CLAIM IN #TICKET-CHANNEL ON DISCORD!</span>
+    </div>
+  </aside>
+
+  <!-- Top Navigation Header (Official Scythe Store) -->
+  <header class="site-header" id="navbar">
+    <div class="header-container">
+      <a href="#home" class="brand-link" data-nav="home" onclick="switchTab('home')">
+        <img src="assets/logo.png" alt="Official Scythe Store Logo" class="brand-logo">
+        <div class="brand-text">
+          <span class="brand-title">OFFICIAL SCYTHE <span class="highlight">STORE</span></span>
+          <span class="brand-tag">PLAY.SCYTHEMC.FUN:25565</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Menu with Modes Dropdown -->
+      <nav class="pixel-nav" aria-label="Main Navigation">
+        <button type="button" class="pixel-nav-link active" data-tab="home" id="nav-home" onclick="switchTab('home')">HOME</button>
+        <button type="button" class="pixel-nav-link" data-tab="modes" id="nav-modes" onclick="switchTab('modes')">MODES</button>
+        <button type="button" class="pixel-nav-link" data-tab="store" id="nav-store" onclick="switchTab('store')">STORE</button>
+        <button type="button" class="pixel-nav-link" data-tab="rules" id="nav-rules" onclick="switchTab('rules')">RULES</button>
+        <button type="button" class="pixel-nav-link" data-tab="staff" id="nav-staff" onclick="switchTab('staff')">STAFF</button>
+        <a href="https://discord.gg/C4p9fJ5aTS" target="_blank" rel="noopener noreferrer" class="pixel-nav-link discord-pill" id="nav-discord">
+          <span class="pulse-indicator"></span>DISCORD
+        </a>
+      </nav>
+
+      <!-- Right Header Actions (IP Copy Pill, Cart, MC IGN Login, Sound) -->
+      <div class="header-actions">
+        <!-- One-Click Server IP Pill -->
+        <button type="button" class="server-ip-pill" id="copyIpHeaderBtn" onclick="copyServerIp(event)" title="Click to copy server IP: PLAY.SCYTHEMC.FUN:25565">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span class="server-ip-text">PLAY.SCYTHEMC.FUN<span class="server-port">:25565</span></span>
+          <span class="copy-badge-pill" id="headerCopyBadge">COPY</span>
+        </button>
+
+        <!-- Shopping Cart Trigger Button -->
+        <button type="button" class="cart-trigger-btn" id="cartTrigger" onclick="openCart()" aria-label="Open Shopping Cart">
+          <div class="cart-icon-wrapper">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-count-badge" id="cartCountBadge">0</span>
+          </div>
+          <span class="cart-label-text">CART</span>
+        </button>
+
+        <!-- Minecraft Player IGN Button -->
+        <button type="button" class="ign-login-btn" id="openIgnModalBtn" onclick="openIgnModal()" title="Set your Minecraft In-Game Name">
+          <div class="ign-avatar-preview">
+            <img src="https://mc-heads.net/avatar/Steve/32" alt="Minecraft Skin Head" id="avatarImg" width="25" height="25">
+          </div>
+          <span class="ign-text" id="navIgnName">LOGIN</span>
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button type="button" class="mobile-menu-toggle" id="mobileMenuBtn" onclick="toggleMobileMenu(event)" aria-label="Toggle navigation menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Notification Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- MAIN PAGE CONTENT (Tab-driven seamless architecture) -->
+  <main class="main-content">
+
+    <!-- ========================================== -->
+    <!-- 1. HOME TAB (Hero, Server Status, Features) -->
+    <!-- ========================================== -->
+    <section class="tab-pane active" id="pane-home">
+      <!-- Premium Hero Section (Authentic Minecraft Cinematic Backdrop & Live Ambient Particles) -->
+      <section class="hero-section" id="hero-section">
+        <div class="hero-backdrop" aria-hidden="true">
+          <div class="hero-mc-landscape"></div>
+          <div class="hero-vignette-overlay"></div>
+        </div>
+        <div class="hero-container">
+          <!-- Left Hero Content Block -->
+          <div class="hero-text-block">
+            <div class="hero-pill-badge">
+              <i class="fa-solid fa-gamepad text-accent"></i>
+              <span>NEXT-GEN MINECRAFT NETWORK</span>
+              <span class="version-tag">1.20 - 1.21.X</span>
+            </div>
+
+            <div class="hero-title-group">
+              <span class="hero-subhead-pixel">WELCOME TO</span>
+              <h1 class="hero-title">
+                OFFICIAL SCYTHE <span class="text-glow-scythe">STORE</span>
+              </h1>
+              <span class="hero-store-tag">INDIA'S PREMIER MINECRAFT NETWORK</span>
+            </div>
+
+            <p class="hero-subtitle">
+              Welcome to Scythe MC! We’re delighted to have you here. Step into our world, make yourself at home, and enjoy your adventure with our wonderful community.
+            </p>
+
+            <div class="hero-cta-group">
+              <button type="button" class="btn btn-primary" onclick="switchTab('store')">
+                <i class="fa-solid fa-store"></i> VISIT STORE
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="switchTab('modes')">
+                <i class="fa-solid fa-gamepad"></i> EXPLORE MODES
+              </button>
+              <a href="https://discord.gg/C4p9fJ5aTS" target="_blank" rel="noopener noreferrer" class="btn btn-discord">
+                <i class="fa-brands fa-discord"></i> DISCORD
+              </a>
+            </div>
+
+            <!-- Hero Server Connect Card -->
+            <div class="hero-connect-card">
+              <div class="connect-header">
+                <span class="connect-label" id="heroConnectLabel"><i class="fa-solid fa-users text-accent" id="heroConnectIcon"></i> <span id="heroConnectText">CHECKING SERVER STATUS...</span></span>
+                <span class="crossplay-badge">JAVA & BEDROCK COMPATIBLE</span>
+              </div>
+              <div class="ip-copy-banner" id="heroIpBox" onclick="copyServerIp(event)" role="button" tabindex="0" title="Click to copy server IP: PLAY.SCYTHEMC.FUN:25565">
+                <div class="ip-info-group">
+                  <span class="ip-sub">SERVER DOMAIN (CLICK TO COPY):</span>
+                  <span class="ip-address">PLAY.SCYTHEMC.FUN<span class="ip-port-num">:25565</span></span>
+                </div>
+                <div class="ip-action-btn" id="heroCopyIpBtn" aria-label="Copy Server IP Address">
+                  <span id="heroCopyText"><i class="fa-regular fa-copy"></i> COPY IP</span>
+                  <span class="ip-shortcut">PORT: 25565</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Hero Visual Showcase Card (LalaMC-style high-end character showcase) -->
+          <div class="hero-visual-card">
+            <!-- Outside Top Status Badge -->
+            <div class="hero-card-top-bar-outside">
+              <div class="hero-online-status-badge">
+                <span class="live-ping-beacon" aria-hidden="true">
+                  <span class="live-ping-dot" id="livePingDot"></span>
+                  <span class="live-ping-ripple" id="livePingRipple"></span>
+                </span>
+                <div class="live-badge-details">
+                  <div class="live-badge-server-row">
+                    <span class="live-server-ip">SCYTHE NETWORK</span>
+                    <span class="live-status-pill" id="liveStatusPill">ONLINE</span>
+                  </div>
+                  <div class="live-badge-count-row">
+                    <i class="fa-solid fa-user-group live-player-icon"></i>
+                    <span class="live-player-count-text"><strong id="onlinePlayerCount">0</strong> PLAYERS ONLINE</span>
+                  </div>
+                </div>
+                <span class="live-copy-tooltip"><i class="fa-solid fa-bolt text-accent"></i> 128-TICK</span>
+              </div>
+            </div>
+
+            <!-- Player Character Frame -->
+            <div class="hero-card-frame-wrapper">
+              <div class="hero-graphic-frame">
+                <!-- Cyan & Violet Ambient Glow FX -->
+                <div class="hero-card-glow-fx" aria-hidden="true"></div>
+
+                <!-- 4K Scythe Warrior Character Render -->
+                <img src="assets/hero-character-clean.jpg" alt="Official Scythe Store Champion Warrior" class="hero-character-img" width="580" height="580">
+
+                <!-- Founder Badge Chip (Linked to Instagram) -->
+                <a href="https://www.instagram.com/nageshh449/" target="_blank" rel="noopener noreferrer" class="floating-chip chip-founder" title="Visit Founder Nagesh on Instagram (@nageshh449)">
+                  <i class="fa-solid fa-crown text-gold"></i>
+                  <span>Founder-Nagesh449</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- Why Choose ScytheMC Highlights -->
+      <section class="features-section">
+        <div class="section-container">
+          <div class="section-heading text-center">
+            <span class="section-badge">BUILT FOR CHAMPIONS</span>
+            <h2 class="section-title">WHY PLAY ON SCYTHEMC?</h2>
+            <p class="section-desc">Engineered for extreme performance, anti-cheat security, and competitive fair-play.</p>
+          </div>
+
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon icon-cyan">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <h3>Zero-Tolerance Anti-Cheat</h3>
+              <p>Custom machine-learning anti-cheat filters out combat hacks, macros, and movement exploits instantly for pure 100% fair play.</p>
+            </div>
+
+            <div class="feature-card featured">
+              <div class="feature-icon icon-violet">
+                <i class="fa-solid fa-trophy"></i>
+              </div>
+              <h3>INR Cash & Spawner Tournaments</h3>
+              <p>Compete using your in-game coins to win real Indian Rupee cash prizes, high-yield spawners, and exclusive champion scythes.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon icon-gold">
+                <i class="fa-solid fa-bolt text-gold"></i>
+              </div>
+              <h3>Instant Rank Delivery</h3>
+              <p>Automated store backend delivers ranks, prefixes, custom cosmetics, and kit permissions within 30 seconds of checkout.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Store Preview / Featured Ranks Teaser -->
+      <section class="store-teaser-section">
+        <div class="section-container">
+          <div class="teaser-card">
+            <div class="teaser-content">
+              <span class="section-badge">RANKS & SPAWNERS OFFICIALLY LIVE</span>
+              <h2>DOMINATE WITH "THE SCYTHE" RANK</h2>
+              <p>Unlock 8 Homes, 8 AH Listings, 10 Team Members, THE SCYTHE Kit, full realm flight, and VIP tournament access for ₹799/mo.</p>
+              <div class="hero-cta-group" style="margin-top: 14px; margin-bottom: 0;">
+                <button type="button" class="btn btn-primary" onclick="switchTab('store'); filterStore('ranks');">
+                  <i class="fa-solid fa-crown"></i> EXPLORE ALL 5 RANKS
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="switchTab('store'); filterStore('spawners');">
+                  <i class="fa-solid fa-egg"></i> SPAWNERS & EGGS (FROM ₹10)
+                </button>
+              </div>
+            </div>
+            <div class="teaser-image-wrap">
+              <img src="assets/logo.png" alt="ScytheMC Logo" class="teaser-img">
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 2. STORE TAB (Ranks, Crate Keys, Tournaments) -->
+    <!-- ========================================== -->
+    <section class="tab-pane" id="pane-store">
+      <div class="store-hero">
+        <div class="section-container">
+          <div class="section-heading text-center">
+            <span class="section-badge">OFFICIAL SERVER STORE</span>
+            <h1 class="section-title">EQUIP YOUR ARSENAL</h1>
+            <p class="section-desc">Select your desired monthly ranks, crate keys, or tournament coins. Supports all major Indian payment gateways (UPI, GPay, Paytm) and International Cards.</p>
+          </div>
+
+          <!-- Store Navigation Subtabs -->
+          <div class="store-subnav">
+            <button type="button" class="subnav-pill active" data-category="ranks" onclick="filterStore('ranks')">
+              <i class="fa-solid fa-crown"></i> <span class="subnav-label-full">RANKS (5 TIERS)</span><span class="subnav-label-mobile">RANKS</span>
+            </button>
+            <button type="button" class="subnav-pill" data-category="spawners" onclick="filterStore('spawners')">
+              <i class="fa-solid fa-egg text-accent"></i> <span class="subnav-label-full">SPAWNERS & EGGS <span class="subnav-badge-new">NEW</span></span><span class="subnav-label-mobile">SPAWNERS</span>
+            </button>
+            <button type="button" class="subnav-pill" data-category="crates" onclick="filterStore('crates')">
+              <i class="fa-solid fa-box-open"></i> <span class="subnav-label-full">CRATE KEYS</span><span class="subnav-label-mobile">CRATES</span>
+            </button>
+            <button type="button" class="subnav-pill" data-category="tournaments" onclick="filterStore('tournaments')">
+              <i class="fa-solid fa-trophy"></i> <span class="subnav-label-full">TOURNAMENTS & REWARDS</span><span class="subnav-label-mobile">TOURNAMENTS</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STORE CONTENT SECTIONS -->
+      <div class="section-container store-body">
+        
+        <!-- A. RANKS CATEGORY -->
+        <div class="store-category-pane active" id="cat-ranks">
+          <div class="ranks-intro-notice">
+            <i class="fa-solid fa-circle-check text-accent"></i>
+            <span><strong>SERVER RANKS ARE NOW LIVE!</strong> Unlock exclusive perks, special permissions, elite commands, and powerful rank kits on SCYTHE MC. Instant delivery via UPI & Discord Ticket!</span>
+          </div>
+
+          <div class="ranks-grid">
+            <!-- 1. VIP RANK -->
+            <div class="rank-card" data-tier="vip">
+              <div class="rank-header">
+                <div class="rank-badge-wrap">
+                  <span class="rank-badge rank-vip"><i class="fa-solid fa-shield"></i> VIP</span>
+                </div>
+                <h3 class="rank-name">VIP RANK</h3>
+                <div class="rank-price">
+                  <span class="currency">₹</span><span class="amount">169</span>
+                  <span class="period">/ Monthly</span>
+                </div>
+              </div>
+
+              <!-- Key Server Specs -->
+              <div class="rank-core-stats">
+                <div class="stat-item"><i class="fa-solid fa-house"></i> <span>Home: <strong>3</strong></span></div>
+                <div class="stat-item"><i class="fa-solid fa-tags"></i> <span>AH Listings: <strong>4</strong></span></div>
+                <div class="stat-item"><i class="fa-solid fa-users"></i> <span>Team Members: <strong>5</strong></span></div>
+                <div class="kit-badge-item"><i class="fa-solid fa-box-archive"></i> VIP KIT</div>
+              </div>
+
+              <div class="rank-perks">
+                <h4><i class="fa-solid fa-star"></i> Included Perks</h4>
+                <ul>
+                  <li><i class="fa-solid fa-check"></i> <strong>VIP</strong> Prefix in chat & tab</li>
+                  <li><i class="fa-solid fa-check"></i> Full Ender Chest Access</li>
+                  <li><i class="fa-solid fa-check"></i> VIP Kit Access</li>
+                  <li><i class="fa-solid fa-check"></i> Standard Priority Join Queue</li>
+                </ul>
+
+                <h4><i class="fa-solid fa-terminal"></i> Access Commands</h4>
+                <div class="command-tags">
+                  <code>/home 3</code>
+                  <code>/ah</code>
+                  <code>/kits vip</code>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-purchase" onclick="addToCart({id: 'vip', name: 'VIP Rank', type: 'Rank', price: 169, period: 'Monthly', icon: 'fa-solid fa-shield', prefix: 'VIP'})">
+                <i class="fa-solid fa-cart-plus"></i> ADD TO CART (₹169)
+              </button>
+            </div>
+
+            <!-- 2. VIP+ RANK -->
+            <div class="rank-card" data-tier="vip-plus">
+              <div class="rank-header">
+                <div class="rank-badge-wrap">
+                  <span class="rank-badge rank-vip-plus"><i class="fa-solid fa-shield-halved"></i> VIP+</span>
+                </div>
+                <h3 class="rank-name">VIP+ RANK</h3>
+                <div class="rank-price">
+                  <span class="currency">₹</span><span class="amount">269</span>
+                  <span class="period">/ Monthly</span>
+                </div>
+              </div>
+
+              <!-- Key Server Specs -->
+              <div class="rank-core-stats">
+                <div class="stat-item"><i class="fa-solid fa-house"></i> <span>Home: <strong>4</strong></span></div>
+                <div class="stat-item"><i class="fa-solid fa-tags"></i> <span>AH Listing: <strong>4</strong></span></div>
+                <div class="stat-item"><i class="fa-solid fa-users"></i> <span>Team Members: <strong>5</strong></span></div>
+                <div class="kit-badge-item"><i class="fa-solid fa-box-archive"></i> VIP & VIP+ KIT</div>
+              </div>
+
+              <div class="rank-perks">
+                <h4><i class="fa-solid fa-star"></i> Included Perks</h4>
+                <ul>
+                  <li><i class="fa-solid fa-check"></i> <strong>VIP+</strong> Prefix in chat & tab</li>
+                  <li><i class="fa-solid fa-check"></i> Full Ender Chest Access</li>
+                  <li><i class="fa-solid fa-check"></i> Dual Kit Access (VIP & VIP+ Kit)</li>
+                  <li><i class="fa-solid fa-check"></i> Private Teleport Delay Bypass</li>
+                  <li><i class="fa-solid fa-check"></i> Priority Event Queue Access</li>
+                </ul>
+
+                <h4><i class="fa-solid fa-terminal"></i> Access Commands</h4>
+                <div class="command-tags">
+                  <code>/home 4</code>
+                  <code>/ah</code>
+                  <code>/kits</code>
+                  <code>/condense</code>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-purchase" onclick="addToCart({id: 'vipplus', name: 'VIP+ Rank', type: 'Rank', price: 269, period: 'Monthly', icon: 'fa-solid fa-shield-halved', prefix: 'VIP+'})">
+                <i class="fa-solid fa-cart-plus"></i> ADD TO CART (₹269)
+              </button>
+            </div>
+
+            <!-- 3. MVP RANK -->
+            <div class="rank-card" data-tier="mvp">
+              <div class="rank-header">
+                <div class="rank-badge-wrap">
+                  <span class="rank-badge rank-mvp"><i class="fa-solid fa-trophy"></i> MVP</span>
+                </div>
+                <h3 class="rank-name">MVP RANK</h3>
+                <div class="rank-price">
+                  <span class="currency">₹</span><span class="amount">399</span>
+                  <span class="period">/ Monthly</span>
+                </div>
+              </div>
+
+              <!-- Key Server Specs -->
+              <div class="rank-core-stats">
+                <div class="stat-item"><i class="fa-solid fa-house"></i> <span>Home: <strong>5</strong></span></div>
+                <div class="stat-item"><i class="fa-solid fa-tags"></i> <span>AH Listings: <strong>5</strong></span></div>
+                <div class="stat-item"><i class="fa-solid fa-users"></i> <span>Team Members: <strong>7</strong></span></div>
+                <div class="kit-badge-item"><i class="fa-solid fa-box-archive"></i> MVP KIT</div>
+              </div>
+
+              <div class="rank-perks">
+                <h4><i class="fa-solid fa-star"></i> Included Perks</h4>
+                <ul>
+                  <li><i class="fa-solid fa-check"></i> <strong>MVP</strong> Prefix in chat & tab</li>
+                  <li><i class="fa-solid fa-check"></i> Full Ender Chest Access</li>
+                  <li><i class="fa-solid fa-check"></i> MVP Kit Access</li>
+                  <li><i class="fa-solid fa-check"></i> Instant Workbench & Anvil Access</li>
+                  <li><i class="fa-solid fa-check"></i> Priority Event Queue Access</li>
+                </ul>
+
+                <h4><i class="fa-solid fa-terminal"></i> Access Commands</h4>
+                <div class="command-tags">
+                  <code>/home 5</code>
+                  <code>/ah 5</code>
+                  <code>/kits mvp</code>
+                  <code>/craft</code>
+                  <code>/near</code>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-purchase" onclick="addToCart({id: 'mvp', name: 'MVP Rank', type: 'Rank', price: 399, period: 'Monthly', icon: 'fa-solid fa-trophy', prefix: 'MVP'})">
+                <i class="fa-solid fa-cart-plus"></i> ADD TO CART (₹399)
+              </button>
+            </div>
+
+            <!-- 4. MVP+ RANK (MOST POPULAR) -->
+            <div class="rank-card highlight-card" data-tier="mvp-plus">
+              <div class="popular-ribbon">MOST POPULAR</div>
+              <div class="rank-header">
+                <div class="rank-badge-wrap">
+                  <span class="rank-badge rank-mvp-plus"><i class="fa-solid fa-bolt"></i> MVP+</span>
+                </div>
+                <h3 class="rank-name">MVP+ RANK</h3>
+                <div class="rank-price">
+                  <span class="currency">₹</span><span class="amount">449</span>
+                  <span class="period">/ Monthly</span>
+                </div>
+              </div>
+
+              <!-- Key Server Specs -->
+              <div class="rank-core-stats">
+                <div class="stat-item"><i class="fa-solid fa-house"></i> <span>Home: <strong>6</strong></span></div>
+                <div class="stat-item"><i class="fa-solid fa-tags"></i> <span>AH Listings: <strong>5</strong></span></div>
+                <div class="stat-item"><i class="fa-solid fa-users"></i> <span>Team Members: <strong>7</strong></span></div>
+                <div class="kit-badge-item"><i class="fa-solid fa-box-archive"></i> MVP & MVP+ KIT</div>
+              </div>
+
+              <div class="rank-perks">
+                <h4><i class="fa-solid fa-star"></i> Included Perks</h4>
+                <ul>
+                  <li><i class="fa-solid fa-check"></i> <strong>Custom MVP+</strong> Prefix in chat & tab</li>
+                  <li><i class="fa-solid fa-check"></i> Full Ender Chest Access</li>
+                  <li><i class="fa-solid fa-check"></i> Dual Kits: MVP & MVP+ Kit</li>
+                  <li><i class="fa-solid fa-check"></i> Lobby Flight (/fly in Hub)</li>
+                  <li><i class="fa-solid fa-check"></i> On-Demand Item Repair Command</li>
+                  <li><i class="fa-solid fa-check"></i> VIP Event Priority Queue</li>
+                  <li><i class="fa-solid fa-check"></i> Exclusive Aura & Particle Cosmetics</li>
+                </ul>
+
+                <h4><i class="fa-solid fa-terminal"></i> Access Commands</h4>
+                <div class="command-tags">
+                  <code>/home 6</code>
+                  <code>/ah 5</code>
+                  <code>/kits</code>
+                  <code>/fly (Hub)</code>
+                  <code>/repair</code>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-purchase highlight-btn" onclick="addToCart({id: 'mvpplus', name: 'MVP+ Rank', type: 'Rank', price: 449, period: 'Monthly', icon: 'fa-solid fa-medal', prefix: 'MVP+'})">
+                <i class="fa-solid fa-cart-plus"></i> ADD TO CART (₹449)
+              </button>
+            </div>
+
+            <!-- 5. THE SCYTHE RANK (SUPREME APEX) -->
+            <div class="rank-card supreme-card" data-tier="the-scythe">
+              <div class="supreme-ribbon">👑 ULTIMATE TIER</div>
+              <div class="rank-header">
+                <div class="rank-badge-wrap">
+                  <span class="rank-badge rank-scythe"><i class="fa-solid fa-crown"></i> THE SCYTHE</span>
+                </div>
+                <h3 class="rank-name">THE SCYTHE</h3>
+                <div class="rank-price">
+                  <span class="currency">₹</span><span class="amount">799</span>
+                  <span class="period">/ Monthly</span>
+                </div>
+              </div>
+
+              <!-- Key Server Specs -->
+              <div class="rank-core-stats">
+                <div class="stat-item"><i class="fa-solid fa-house"></i> <span>Home: <strong>8</strong></span></div>
+                <div class="stat-item"><i class="fa-solid fa-tags"></i> <span>AH Listing: <strong>8</strong></span></div>
+                <div class="stat-item"><i class="fa-solid fa-users"></i> <span>Team Members: <strong>10</strong></span></div>
+                <div class="kit-badge-item kit-scythe"><i class="fa-solid fa-skull"></i> THE SCYTHE KIT</div>
+              </div>
+
+              <div class="rank-perks">
+                <h4><i class="fa-solid fa-star"></i> Supreme Perks</h4>
+                <ul>
+                  <li><i class="fa-solid fa-check"></i> <strong>Animated THE SCYTHE</strong> Prefix</li>
+                  <li><i class="fa-solid fa-check"></i> Full Ender Chest Access</li>
+                  <li><i class="fa-solid fa-check"></i> THE SCYTHE Ascended Kit</li>
+                  <li><i class="fa-solid fa-check"></i> Full Realm Flight Privileges (/fly)</li>
+                  <li><i class="fa-solid fa-check"></i> Custom Nickname Command (/nick)</li>
+                  <li><i class="fa-solid fa-check"></i> Permanent 100% Full Server Queue Bypass</li>
+                  <li><i class="fa-solid fa-check"></i> Guaranteed VIP Event & Tournament Slot</li>
+                  <li><i class="fa-solid fa-check"></i> Sovereign Particle Trails & Wings</li>
+                </ul>
+
+                <h4><i class="fa-solid fa-terminal"></i> Access Commands</h4>
+                <div class="command-tags">
+                  <code>/home 8</code>
+                  <code>/ah 8</code>
+                  <code>/kits thescythe</code>
+                  <code>/fly</code>
+                  <code>/nick</code>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-purchase supreme-btn" onclick="addToCart({id: 'thescythe', name: 'THE SCYTHE Rank', type: 'Rank', price: 799, period: 'Monthly', icon: 'fa-solid fa-crown', prefix: 'THE SCYTHE'})">
+                <i class="fa-solid fa-cart-plus"></i> ADD TO CART (₹799)
+              </button>
+            </div>
+          </div>
+
+          <!-- Side-by-side Rank Comparison Matrix Table -->
+          <div class="comparison-section">
+            <div class="comparison-header-row">
+              <h3 class="comparison-title"><i class="fa-solid fa-table-list"></i> Full Ranks Feature Comparison</h3>
+              <span class="table-scroll-hint desktop-only"><i class="fa-solid fa-arrows-left-right"></i> Scroll table to compare all ranks</span>
+            </div>
+
+            <!-- Mobile Interactive Rank Perks Selector (100% uncropped on mobile) -->
+            <div class="mobile-perks-container">
+              <div class="mobile-rank-chips">
+                <button type="button" class="rank-chip active" data-rank="vip" onclick="selectMobilePerkRank('vip')">VIP</button>
+                <button type="button" class="rank-chip" data-rank="vipplus" onclick="selectMobilePerkRank('vipplus')">VIP+</button>
+                <button type="button" class="rank-chip" data-rank="mvp" onclick="selectMobilePerkRank('mvp')">MVP</button>
+                <button type="button" class="rank-chip" data-rank="mvpplus" onclick="selectMobilePerkRank('mvpplus')">MVP+</button>
+                <button type="button" class="rank-chip" data-rank="scythe" onclick="selectMobilePerkRank('scythe')">THE SCYTHE</button>
+              </div>
+
+              <div class="mobile-perk-card" id="mobilePerkCard">
+                <!-- Dynamically rendered by JavaScript -->
+              </div>
+
+              <button type="button" class="toggle-matrix-btn" id="toggleMatrixBtn" onclick="toggleFullMatrix()">
+                <i class="fa-solid fa-table-cells"></i> <span id="toggleMatrixText">View Full Matrix Table</span>
+              </button>
+            </div>
+
+            <div class="table-responsive" id="tableResponsiveMatrix">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th>Feature / Perk</th>
+                    <th>VIP (₹169)</th>
+                    <th>VIP+ (₹269)</th>
+                    <th>MVP (₹399)</th>
+                    <th>MVP+ (₹449)</th>
+                    <th>THE SCYTHE (₹799)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Monthly Price</strong></td>
+                    <td>₹169</td>
+                    <td>₹269</td>
+                    <td>₹399</td>
+                    <td>₹449</td>
+                    <td class="text-accent"><strong>₹799</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Homes Limit (/home)</strong></td>
+                    <td>3 Homes</td>
+                    <td>4 Homes</td>
+                    <td>5 Homes</td>
+                    <td>6 Homes</td>
+                    <td class="text-accent"><strong>8 Homes</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Auction House (AH) Listings</strong></td>
+                    <td>4 Listings</td>
+                    <td>4 Listings</td>
+                    <td>5 Listings</td>
+                    <td>5 Listings</td>
+                    <td class="text-accent"><strong>8 Listings</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Team Members Allowed</strong></td>
+                    <td>5 Members</td>
+                    <td>5 Members</td>
+                    <td>7 Members</td>
+                    <td>7 Members</td>
+                    <td class="text-accent"><strong>10 Members</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Rank Kits Included</strong></td>
+                    <td><span class="badge-meta">VIP KIT</span></td>
+                    <td><span class="badge-meta">VIP & VIP+ KIT</span></td>
+                    <td><span class="badge-meta">MVP KIT</span></td>
+                    <td><span class="badge-meta">MVP & MVP+ KIT</span></td>
+                    <td class="text-accent"><strong>THE SCYTHE KIT</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Full Ender Chest Access</td>
+                    <td><i class="fa-solid fa-check text-success"></i></td>
+                    <td><i class="fa-solid fa-check text-success"></i></td>
+                    <td><i class="fa-solid fa-check text-success"></i></td>
+                    <td><i class="fa-solid fa-check text-success"></i></td>
+                    <td><i class="fa-solid fa-check text-success"></i></td>
+                  </tr>
+                  <tr>
+                    <td>Priority Join Queue</td>
+                    <td>Standard</td>
+                    <td>Priority Low</td>
+                    <td>Priority Medium</td>
+                    <td>Priority High</td>
+                    <td class="text-accent"><strong>Bypass Full Server</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Priority Event Queue</td>
+                    <td>—</td>
+                    <td><i class="fa-solid fa-check text-success"></i></td>
+                    <td><i class="fa-solid fa-check text-success"></i></td>
+                    <td><i class="fa-solid fa-check text-success"></i> (VIP Queue)</td>
+                    <td class="text-accent"><strong>Guaranteed Slot</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Flight Privileges (/fly)</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td>Hub / Lobby Flight</td>
+                    <td class="text-accent"><strong>All Realms Flight</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Custom Nickname (/nick)</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td class="text-accent"><strong><i class="fa-solid fa-check text-success"></i> Animated Nick</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- B. SPAWNERS & SPAWN EGGS CATEGORY (NEW) -->
+        <div class="store-category-pane" id="cat-spawners">
+          <div class="spawners-hero-box">
+            <span class="section-badge">OFFICIAL STORE LAUNCH</span>
+            <h2>SPAWNERS & SPAWN EGG STORE IS LIVE!</h2>
+            <p><strong>BOOST YOUR FARMS & BASE TODAY!</strong> Build automated mob farms, trading halls, and massive grinders with our official spawners and spawn eggs. Items are delivered directly in-game upon verification.</p>
+          </div>
+
+          <!-- Official Payment Instructions Banner -->
+          <div class="claim-instructions-card">
+            <div class="claim-header">
+              <div class="claim-title-group">
+                <h3><i class="fa-solid fa-qrcode text-accent"></i> OFFICIAL PAYMENT & CLAIM INSTRUCTIONS</h3>
+                <p>Follow these 3 simple steps to claim your spawners, spawn eggs, or ranks immediately:</p>
+              </div>
+              <a href="https://discord.gg/C4p9fJ5aTS" target="_blank" rel="noopener noreferrer" class="btn btn-discord btn-sm">
+                <i class="fa-brands fa-discord"></i> OPEN #TICKET-CHANNEL
+              </a>
+            </div>
+
+            <div class="claim-steps-grid">
+              <div class="claim-step-card">
+                <div class="step-num-circle">1</div>
+                <div class="step-info">
+                  <strong>Scan QR & Pay</strong>
+                  <p>Scan the server UPI QR Code using GPay, PhonePe, Paytm, or BHIM to complete payment.</p>
+                </div>
+              </div>
+              <div class="claim-step-card">
+                <div class="step-num-circle">2</div>
+                <div class="step-info">
+                  <strong>Open Ticket</strong>
+                  <p>Open a support ticket in <strong>#ticket-channel</strong> on our official Discord server.</p>
+                </div>
+              </div>
+              <div class="claim-step-card">
+                <div class="step-num-circle">3</div>
+                <div class="step-info">
+                  <strong>Send Proof & IGN</strong>
+                  <p>Send your payment screenshot + Minecraft IGN in the ticket. Items are dispatched right away!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1. MOB SPAWNERS -->
+          <div class="category-subheading">
+            <h3><i class="fa-solid fa-fire-burner text-accent"></i> MOB SPAWNERS</h3>
+            <span class="badge-meta">AUTOMATED MOB GRINDERS</span>
+          </div>
+
+          <div class="spawners-grid">
+            <!-- Skeleton Spawner -->
+            <div class="spawner-card skeleton-card">
+              <div class="spawner-card-header">
+                <div class="spawner-icon-wrap">
+                  <i class="fa-solid fa-skull"></i>
+                </div>
+                <span class="spawner-badge badge-skeleton">MOB SPAWNER</span>
+                <h4 class="spawner-title">Skeleton Spawner</h4>
+                <div class="spawner-price">
+                  <span class="currency">₹</span><span class="amount">10</span>
+                  <span class="meta">/ Each</span>
+                </div>
+              </div>
+
+              <div class="spawner-features">
+                <ul>
+                  <li><i class="fa-solid fa-check"></i> High-Speed Automated Bone Meal Farming</li>
+                  <li><i class="fa-solid fa-check"></i> Infinite Arrow Supplies & Bow Drops</li>
+                  <li><i class="fa-solid fa-check"></i> Continuous XP Mob Grinder Setup</li>
+                  <li><i class="fa-solid fa-check"></i> Instant Placement on Any Claim</li>
+                </ul>
+              </div>
+
+              <button type="button" class="btn btn-purchase" onclick="addToCart({id: 'skeleton-spawner', name: 'Skeleton Spawner', type: 'Mob Spawner', price: 10, icon: 'fa-solid fa-skull'})">
+                <i class="fa-solid fa-cart-plus"></i> ADD TO CART (₹10)
+              </button>
+            </div>
+
+            <!-- Creeper Spawner -->
+            <div class="spawner-card creeper-card">
+              <div class="spawner-card-header">
+                <div class="spawner-icon-wrap">
+                  <i class="fa-solid fa-bomb"></i>
+                </div>
+                <span class="spawner-badge badge-creeper">MOB SPAWNER</span>
+                <h4 class="spawner-title">Creeper Spawner</h4>
+                <div class="spawner-price">
+                  <span class="currency">₹</span><span class="amount">15</span>
+                  <span class="meta">/ Each</span>
+                </div>
+              </div>
+
+              <div class="spawner-features">
+                <ul>
+                  <li><i class="fa-solid fa-check"></i> High-Yield Automated Gunpowder Farm</li>
+                  <li><i class="fa-solid fa-check"></i> Infinite Firework Rockets for Elytra Flight</li>
+                  <li><i class="fa-solid fa-check"></i> Rapid TNT Stockpiling for Raids & Mining</li>
+                  <li><i class="fa-solid fa-check"></i> Safe Base Grinder Compatible</li>
+                </ul>
+              </div>
+
+              <button type="button" class="btn btn-purchase" onclick="addToCart({id: 'creeper-spawner', name: 'Creeper Spawner', type: 'Mob Spawner', price: 15, icon: 'fa-solid fa-bomb'})">
+                <i class="fa-solid fa-cart-plus"></i> ADD TO CART (₹15)
+              </button>
+            </div>
+
+            <!-- Iron Golem Spawner -->
+            <div class="spawner-card iron-golem-card">
+              <div class="popular-ribbon" style="background: linear-gradient(90deg, #f59e0b, #ef4444);">🔥 TOP PICK</div>
+              <div class="spawner-card-header">
+                <div class="spawner-icon-wrap">
+                  <i class="fa-solid fa-robot"></i>
+                </div>
+                <span class="spawner-badge badge-golem">APEX SPAWNER</span>
+                <h4 class="spawner-title">Iron Golem Spawner</h4>
+                <div class="spawner-price">
+                  <span class="currency">₹</span><span class="amount">20</span>
+                  <span class="meta">/ Each</span>
+                </div>
+              </div>
+
+              <div class="spawner-features">
+                <ul>
+                  <li><i class="fa-solid fa-check"></i> Supreme Automated Iron Farm Engine</li>
+                  <li><i class="fa-solid fa-check"></i> Infinite Iron Ingot Production & Poppies</li>
+                  <li><i class="fa-solid fa-check"></i> Dominate Server Economy & Armor Smithing</li>
+                  <li><i class="fa-solid fa-check"></i> Maximum Efficiency Base Grinder</li>
+                </ul>
+              </div>
+
+              <button type="button" class="btn btn-purchase" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-weight: 800;" onclick="addToCart({id: 'iron-golem-spawner', name: 'Iron Golem Spawner', type: 'Mob Spawner', price: 20, icon: 'fa-solid fa-robot'})">
+                <i class="fa-solid fa-cart-plus"></i> ADD TO CART (₹20)
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. SPAWN EGGS -->
+          <div class="category-subheading">
+            <h3><i class="fa-solid fa-egg text-accent"></i> SPAWN EGGS</h3>
+            <span class="badge-meta">TRADING HALLS & ECONOMY</span>
+          </div>
+
+          <div class="eggs-grid">
+            <!-- Villager Spawn Egg -->
+            <div class="spawner-card villager-card">
+              <div class="spawner-card-header">
+                <div class="spawner-icon-wrap">
+                  <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <span class="spawner-badge badge-villager">SPAWN EGG</span>
+                <h4 class="spawner-title">Villager Spawn Egg</h4>
+                <div class="spawner-price">
+                  <span class="currency">₹</span><span class="amount">50</span>
+                  <span class="meta">/ Each</span>
+                </div>
+              </div>
+
+              <div class="spawner-features">
+                <ul>
+                  <li><i class="fa-solid fa-check"></i> Build Custom Automated Trading Halls</li>
+                  <li><i class="fa-solid fa-check"></i> Roll Master Librarians for Mending Books</li>
+                  <li><i class="fa-solid fa-check"></i> Unlock God-Tier Armor & Tool Enchantments</li>
+                  <li><i class="fa-solid fa-check"></i> Create Self-Sustaining Iron & Crop Farms</li>
+                </ul>
+              </div>
+
+              <button type="button" class="btn btn-purchase" onclick="addToCart({id: 'villager-egg', name: 'Villager Spawn Egg', type: 'Spawn Egg', price: 50, icon: 'fa-solid fa-user-tie'})">
+                <i class="fa-solid fa-cart-plus"></i> ADD TO CART (₹50)
+              </button>
+            </div>
+
+            <!-- Zombie Spawn Egg -->
+            <div class="spawner-card zombie-card">
+              <div class="spawner-card-header">
+                <div class="spawner-icon-wrap">
+                  <i class="fa-solid fa-biohazard"></i>
+                </div>
+                <span class="spawner-badge badge-zombie">SPAWN EGG</span>
+                <h4 class="spawner-title">Zombie Spawn Egg</h4>
+                <div class="spawner-price">
+                  <span class="currency">₹</span><span class="amount">50</span>
+                  <span class="meta">/ Each</span>
+                </div>
+              </div>
+
+              <div class="spawner-features">
+                <ul>
+                  <li><i class="fa-solid fa-check"></i> Infection & Curing Mechanics for 1-Emerald Trades</li>
+                  <li><i class="fa-solid fa-check"></i> Automated Zombie XP Grinders & Drop Farms</li>
+                  <li><i class="fa-solid fa-check"></i> Copper & Iron Farm Setup Compatibility</li>
+                  <li><i class="fa-solid fa-check"></i> Essential Partner for Villager Trading Centers</li>
+                </ul>
+              </div>
+
+              <button type="button" class="btn btn-purchase" onclick="addToCart({id: 'zombie-egg', name: 'Zombie Spawn Egg', type: 'Spawn Egg', price: 50, icon: 'fa-solid fa-biohazard'})">
+                <i class="fa-solid fa-cart-plus"></i> ADD TO CART (₹50)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- B. CRATE KEYS CATEGORY -->
+        <div class="store-category-pane" id="cat-crates">
+          <div class="crates-hero-box">
+            <div class="crates-hero-text">
+              <h3><i class="fa-solid fa-key text-gold"></i> SCYTHEMC CRATE KEYS</h3>
+              <p>You can purchase Crate Keys using either <strong>Indian Rupees (₹)</strong> or your earned <strong>In-Game Coins</strong>!</p>
+            </div>
+            <div class="crates-hero-badge">
+              <span>DUAL CURRENCY SUPPORT</span>
+            </div>
+          </div>
+
+          <div class="crates-grid">
+            <!-- 1. SPONSER / SPAWNER KEY -->
+            <div class="crate-card" data-crate="spawner">
+              <div class="crate-img-wrap">
+                <img src="assets/crate-spawner.jpg" alt="Spawner Crate" class="crate-img">
+                <div class="crate-glow glow-green"></div>
+              </div>
+              <div class="crate-details">
+                <h3 class="crate-title">ꜱᴘᴀᴡɴᴇʀ ᴋᴇʏ</h3>
+                <p class="crate-desc">Unlocks high-tier mob spawners, blaze rods, and rare economic farming resources.</p>
+                
+                <div class="crate-pricing">
+                  <div class="price-chip inr"><i class="fa-solid fa-indian-rupee-sign"></i> ₹19</div>
+                  <span class="or-separator">OR</span>
+                  <div class="price-chip coins"><i class="fa-solid fa-coins"></i> 39 ᴄᴏɪɴꜱ</div>
+                </div>
+
+                <div class="crate-actions">
+                  <button type="button" class="btn btn-purchase btn-sm" onclick="addToCart({id: 'spawner-key-inr', name: 'Spawner Key', type: 'Crate Key', price: 19, currency: 'INR', icon: 'fa-solid fa-key'})">
+                    Buy with ₹19
+                  </button>
+                  <button type="button" class="btn btn-coins btn-sm" onclick="redeemWithCoins('Spawner Key', 39)">
+                    Redeem (39 Coins)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. PARTY KEY -->
+            <div class="crate-card" data-crate="party">
+              <div class="crate-img-wrap">
+                <img src="assets/crate-party.jpg" alt="Party Crate" class="crate-img">
+                <div class="crate-glow glow-cyan"></div>
+              </div>
+              <div class="crate-details">
+                <h3 class="crate-title">ᴘᴀʀᴛʏ ᴋᴇʏ</h3>
+                <p class="crate-desc">Triggers server-wide party rewards, booster effects, cosmetic particle crowns and player buffs.</p>
+                
+                <div class="crate-pricing">
+                  <div class="price-chip inr"><i class="fa-solid fa-indian-rupee-sign"></i> ₹39</div>
+                  <span class="or-separator">OR</span>
+                  <div class="price-chip coins"><i class="fa-solid fa-coins"></i> 59 ᴄᴏɪɴꜱ</div>
+                </div>
+
+                <div class="crate-actions">
+                  <button type="button" class="btn btn-purchase btn-sm" onclick="addToCart({id: 'party-key-inr', name: 'Party Key', type: 'Crate Key', price: 39, currency: 'INR', icon: 'fa-solid fa-key'})">
+                    Buy with ₹39
+                  </button>
+                  <button type="button" class="btn btn-coins btn-sm" onclick="redeemWithCoins('Party Key', 59)">
+                    Redeem (59 Coins)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. XAVIEN KEY -->
+            <div class="crate-card" data-crate="xavien">
+              <div class="crate-img-wrap">
+                <img src="assets/crate-xavien.jpg" alt="Xavien Crate" class="crate-img">
+                <div class="crate-glow glow-violet"></div>
+              </div>
+              <div class="crate-details">
+                <h3 class="crate-title">xᴀᴠɪᴇɴ ᴋᴇʏ</h3>
+                <p class="crate-desc">Contains Netherite armor sets with custom Xavien enchantments and extended vault passes.</p>
+                
+                <div class="crate-pricing">
+                  <div class="price-chip inr"><i class="fa-solid fa-indian-rupee-sign"></i> ₹79</div>
+                  <span class="or-separator">OR</span>
+                  <div class="price-chip coins"><i class="fa-solid fa-coins"></i> 99 ᴄᴏɪɴꜱ</div>
+                </div>
+
+                <div class="crate-actions">
+                  <button type="button" class="btn btn-purchase btn-sm" onclick="addToCart({id: 'xavien-key-inr', name: 'Xavien Key', type: 'Crate Key', price: 79, currency: 'INR', icon: 'fa-solid fa-key'})">
+                    Buy with ₹79
+                  </button>
+                  <button type="button" class="btn btn-coins btn-sm" onclick="redeemWithCoins('Xavien Key', 99)">
+                    Redeem (99 Coins)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. PRIME KEY -->
+            <div class="crate-card featured-crate" data-crate="prime">
+              <div class="prime-badge">MOST POWERFUL</div>
+              <div class="crate-img-wrap">
+                <img src="assets/crate-prime.jpg" alt="Prime Crate" class="crate-img">
+                <div class="crate-glow glow-gold"></div>
+              </div>
+              <div class="crate-details">
+                <h3 class="crate-title">ᴘʀɪᴍᴇ ᴋᴇʏ</h3>
+                <p class="crate-desc">The supreme crate. Drops legendary Scythe blades, rank vouchers, and rare cash prize lottery tokens.</p>
+                
+                <div class="crate-pricing">
+                  <div class="price-chip inr"><i class="fa-solid fa-indian-rupee-sign"></i> ₹99</div>
+                  <span class="or-separator">OR</span>
+                  <div class="price-chip coins"><i class="fa-solid fa-coins"></i> 129 ᴄᴏɪɴꜱ</div>
+                </div>
+
+                <div class="crate-actions">
+                  <button type="button" class="btn btn-purchase highlight-btn btn-sm" onclick="addToCart({id: 'prime-key-inr', name: 'Prime Key', type: 'Crate Key', price: 99, currency: 'INR', icon: 'fa-solid fa-key'})">
+                    Buy with ₹99
+                  </button>
+                  <button type="button" class="btn btn-coins btn-sm" onclick="redeemWithCoins('Prime Key', 129)">
+                    Redeem (129 Coins)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- C. TOURNAMENTS & REWARDS CATEGORY -->
+        <div class="store-category-pane" id="cat-tournaments">
+          <div class="tournaments-card">
+            <div class="tournaments-header">
+              <span class="section-badge">COMPETITIVE ARENA</span>
+              <h2>ᴛᴏᴜʀɴᴀᴍᴇɴᴛꜱ & ʀᴇᴡᴀʀᴅꜱ</h2>
+              <p>You can use your <strong>In-Game Coins</strong> to participate in exciting tournaments and compete for exclusive real rewards!</p>
+            </div>
+
+            <div class="rewards-showcase">
+              <div class="reward-box">
+                <div class="reward-icon icon-cyan">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h3>ᴘᴏᴡᴇʀꜰᴜʟ ᴛᴏᴏʟꜱ</h3>
+                <p>3x3 Trench Pickaxes, Auto-Smelt Shovels, Vorpal God Blades & Custom Scythe Weapons.</p>
+              </div>
+
+              <div class="reward-box">
+                <div class="reward-icon icon-violet">
+                  <i class="fa-solid fa-cubes-stacked"></i>
+                </div>
+                <h3>ᴠᴀʟᴜᴀʙʟᴇ ꜱᴘᴀᴡɴᴇʀꜱ</h3>
+                <p>High-capacity Blaze, Iron Golem, Warden, and Netherite mob spawners for economic empire dominance.</p>
+              </div>
+
+              <div class="reward-box reward-highlight">
+                <div class="reward-icon icon-gold">
+                  <i class="fa-solid fa-money-bill-wave"></i>
+                </div>
+                <h3>ɪɴʀ ᴄᴀꜱʜ ᴘʀɪᴢᴇꜱ</h3>
+                <p>Real cash pool distributed via UPI / PayTM directly to tournament champions and weekly leaderboard holders!</p>
+              </div>
+            </div>
+
+            <div class="tournament-footer-banner">
+              <div class="tournament-info">
+                <h4><i class="fa-solid fa-calendar-check"></i> Next Major Scythe Cup: This Sunday 8:00 PM IST</h4>
+                <p>Entry Fee: 150 In-Game Coins | Prize Pool: ₹5,000 INR + 3x Ascended Kits</p>
+              </div>
+              <a href="https://discord.gg/C4p9fJ5aTS" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                <i class="fa-brands fa-discord"></i> REGISTER ON DISCORD
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. MODES TAB (Gameplay Modes) -->
+    <!-- ========================================== -->
+    <section class="tab-pane" id="pane-modes">
+      <div class="section-container">
+        <div class="section-heading text-center">
+          <span class="section-badge">SERVER ARCHITECTURE</span>
+          <h1 class="section-title">GAME MODES</h1>
+          <p class="section-desc">Handcrafted realms engineered for competitive combat, team raiding, and long-term economic progression.</p>
+        </div>
+
+        <div class="modes-grid">
+          <div class="mode-card">
+            <div class="mode-header">
+              <div class="mode-tag tag-lifesteal">HARDCORE COMBAT</div>
+              <h3>Lifesteal SMP</h3>
+            </div>
+            <p class="mode-desc">Kill opponents to steal their hearts. Lose all your hearts and get temporarily eliminated until revived by your faction's revive beacon.</p>
+            <ul class="mode-features">
+              <li><i class="fa-solid fa-heart-pulse text-crimson"></i> Heart Stealing & Custom Crafting</li>
+              <li><i class="fa-solid fa-skull-crossbones"></i> Grace Periods & Combat Tagging</li>
+              <li><i class="fa-solid fa-gem"></i> Custom Talismans & Relics</li>
+            </ul>
+            <div class="mode-ip-copy" onclick="copyServerIp()">
+              <span>CONNECT: <strong>PLAY.SCYTHEMC.FUN:25565</strong></span>
+              <i class="fa-regular fa-copy"></i>
+            </div>
+          </div>
+
+          <div class="mode-card mode-coming-soon">
+            <div class="mode-header">
+              <div class="mode-tags-wrap">
+                <div class="mode-tag tag-bedwars">BEDWARS STRATEGY</div>
+                <div class="badge-coming-soon"><i class="fa-solid fa-clock"></i> COMING SOON</div>
+              </div>
+              <h3>Scythe Bedwars</h3>
+            </div>
+            <p class="mode-desc">Defend your bed, upgrade team generators, and battle across floating islands with custom fireballs, bridge eggs, and tactical team upgrades.</p>
+            <ul class="mode-features">
+              <li><i class="fa-solid fa-bed text-cyan"></i> Custom Bed Upgrades & Generator Speed</li>
+              <li><i class="fa-solid fa-fire text-gold"></i> Fireballs, Bridge Eggs & Obsidian Traps</li>
+              <li><i class="fa-solid fa-trophy"></i> Solo, Doubles & Squad Ranked Seasons</li>
+            </ul>
+            <div class="mode-ip-copy mode-coming-soon-btn" title="Realm in active development - Coming Soon">
+              <span><i class="fa-solid fa-hourglass-half text-gold"></i> STATUS: <strong>COMING SOON</strong></span>
+              <span class="soon-badge-pill">IN DEV</span>
+            </div>
+          </div>
+
+          <div class="mode-card mode-coming-soon">
+            <div class="mode-header">
+              <div class="mode-tags-wrap">
+                <div class="mode-tag tag-survival">COMMUNITY & ECONOMY</div>
+                <div class="badge-coming-soon"><i class="fa-solid fa-clock"></i> COMING SOON</div>
+              </div>
+              <h3>Survival Earth</h3>
+            </div>
+            <p class="mode-desc">A 1:1000 scale Earth map featuring custom lands claiming, dynmap viewer, cross-continental trade routes, and server-wide auctions.</p>
+            <ul class="mode-features">
+              <li><i class="fa-solid fa-earth-americas text-emerald"></i> Full Grief Prevention & Land Claiming</li>
+              <li><i class="fa-solid fa-coins text-gold"></i> Dynamic Player-Driven Economy</li>
+              <li><i class="fa-solid fa-dungeon"></i> Custom Dungeons & World Bosses</li>
+            </ul>
+            <div class="mode-ip-copy mode-coming-soon-btn" title="Realm in active development - Coming Soon">
+              <span><i class="fa-solid fa-hourglass-half text-gold"></i> STATUS: <strong>COMING SOON</strong></span>
+              <span class="soon-badge-pill">IN DEV</span>
+            </div>
+          </div>
+
+          <div class="mode-card">
+            <div class="mode-header">
+              <div class="mode-tag tag-practice">COMPETITIVE DUELS</div>
+              <h3>Scythe Practice</h3>
+            </div>
+            <p class="mode-desc">Polish your mechanical sword, axe, crystal, and pot skills. Unranked and ranked 1v1 matchmaking with global Elo ratings and zero input latency.</p>
+            <ul class="mode-features">
+              <li><i class="fa-solid fa-swords text-violet"></i> Crystal, Netherite Pot, Nodebuff & UHC</li>
+              <li><i class="fa-solid fa-ranking-star"></i> Monthly Elo Seasons & Top Leaderboards</li>
+              <li><i class="fa-solid fa-clock"></i> 0ms Input Latency Optimization</li>
+            </ul>
+            <div class="mode-ip-copy" onclick="copyServerIp()">
+              <span>CONNECT: <strong>PLAY.SCYTHEMC.FUN:25565</strong></span>
+              <i class="fa-regular fa-copy"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 4. RULES TAB (Exact 10 Rules & Policies) -->
+    <!-- ========================================== -->
+    <section class="tab-pane" id="pane-rules">
+      <div class="section-container">
+        <div class="section-heading text-center">
+          <span class="section-badge">COMMUNITY STANDARDS</span>
+          <h1 class="section-title">SCYTHEMC RULES</h1>
+          <p class="section-desc">By playing on ScytheMC or staying in our Discord server, you agree to adhere to all community regulations.</p>
+        </div>
+
+        <!-- Rules Search & Filter -->
+        <div class="rules-search-wrap">
+          <div class="rules-search-input">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="ruleSearchInput" placeholder="Search rules (e.g., cheating, spam, voice, punishment)..." onkeyup="filterRules()">
+          </div>
+        </div>
+
+        <!-- 10 Rules Accordion Grid -->
+        <div class="rules-list" id="rulesListContainer">
+          
+          <!-- Rule 1 -->
+          <article class="rule-card" data-keywords="respect mandatory abuse harassment hate speech racism political toxic">
+            <div class="rule-num">1️⃣</div>
+            <div class="rule-body">
+              <h3 class="rule-title">Respect is Mandatory</h3>
+              <ul class="rule-bullets">
+                <li>No abusive language, harassment, threats, or hate speech</li>
+                <li>No racism, sexism, religious or political attacks</li>
+                <li>Treat all members, staff, and players with respect</li>
+              </ul>
+              <div class="rule-tag tag-ban"><i class="fa-solid fa-ban"></i> Zero tolerance for toxic behavior</div>
+            </div>
+          </article>
+
+          <!-- Rule 2 -->
+          <article class="rule-card" data-keywords="spam flooding repeated emoji gif mic soundboards voice disturbance">
+            <div class="rule-num">2️⃣</div>
+            <div class="rule-body">
+              <h3 class="rule-title">No Spamming or Flooding</h3>
+              <ul class="rule-bullets">
+                <li>No message spam, emoji spam, GIF spam, or mic spam</li>
+                <li>No repeated messages or unnecessary tagging</li>
+                <li>No soundboards or voice disturbances</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Rule 3 -->
+          <article class="rule-card" data-keywords="advertising promo promotion youtube discord servers links dm self-promotion">
+            <div class="rule-num">3️⃣</div>
+            <div class="rule-body">
+              <h3 class="rule-title">No Advertising or Self-Promotion</h3>
+              <ul class="rule-bullets">
+                <li>No promotion of YouTube, Discord servers, Instagram, or any links</li>
+                <li>No DM advertising to members</li>
+                <li>Promotion only allowed with Admin permission</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Rule 4 -->
+          <article class="rule-card" data-keywords="channel purpose off-topic gaming channels descriptions">
+            <div class="rule-num">4️⃣</div>
+            <div class="rule-body">
+              <h3 class="rule-title">Follow Channel Purposes</h3>
+              <ul class="rule-bullets">
+                <li>Use each channel only for its intended purpose</li>
+                <li>Off-topic chat in gaming channels is not allowed</li>
+                <li>Read channel descriptions before posting</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Rule 5 -->
+          <article class="rule-card rule-critical" data-keywords="cheating exploits hacks mods cheats macros ban bug abuse fair play">
+            <div class="rule-num">5️⃣</div>
+            <div class="rule-body">
+              <h3 class="rule-title">No Cheating or Exploits</h3>
+              <ul class="rule-bullets">
+                <li>Hacks, mods, cheats, macros, or exploits are strictly banned</li>
+                <li>Sharing cheat methods or bug abuse is prohibited</li>
+                <li>Fair play is mandatory</li>
+              </ul>
+              <div class="rule-tag tag-instant-ban"><i class="fa-solid fa-triangle-exclamation"></i> Instant ban for cheating</div>
+            </div>
+          </article>
+
+          <!-- Rule 6 -->
+          <article class="rule-card" data-keywords="voice channel rules loud noises music screaming mic abuse voice changers push to talk">
+            <div class="rule-num">6️⃣</div>
+            <div class="rule-body">
+              <h3 class="rule-title">Voice Channel Rules</h3>
+              <ul class="rule-bullets">
+                <li>No loud noises, music, screaming, or mic abuse</li>
+                <li>No voice changers</li>
+                <li>Push-to-talk recommended</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Rule 7 -->
+          <article class="rule-card" data-keywords="nsfw illegal content sexual violent drugs gambling safe clean">
+            <div class="rule-num">7️⃣</div>
+            <div class="rule-body">
+              <h3 class="rule-title">No NSFW or Illegal Content</h3>
+              <ul class="rule-bullets">
+                <li>No NSFW, sexual, violent, or disturbing content</li>
+                <li>No drugs, gambling, or illegal activity discussion</li>
+                <li>Keep the server safe and clean</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Rule 8 -->
+          <article class="rule-card" data-keywords="username profile rules offensive names pictures avatar mute ban">
+            <div class="rule-num">8️⃣</div>
+            <div class="rule-body">
+              <h3 class="rule-title">Username & Profile Rules</h3>
+              <ul class="rule-bullets">
+                <li>Offensive names or profile pictures are not allowed</li>
+                <li>Staff can request a name or profile change</li>
+                <li>Failure to comply may result in mute or ban</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Rule 9 -->
+          <article class="rule-card" data-keywords="staff authority final moderators admins arguing appeals support ticket">
+            <div class="rule-num">9️⃣</div>
+            <div class="rule-body">
+              <h3 class="rule-title">Staff Authority is Final</h3>
+              <ul class="rule-bullets">
+                <li>Respect moderators and admins</li>
+                <li>Arguing with staff in public channels is not allowed</li>
+                <li>Appeals can be made politely in DMs or support channel</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Rule 10 -->
+          <article class="rule-card" data-keywords="punishments system warning mute kick ban staff discretion">
+            <div class="rule-num">🔟</div>
+            <div class="rule-body">
+              <h3 class="rule-title">Punishments System</h3>
+              <div class="punishment-flow">
+                <span class="punish-step">Warning</span>
+                <i class="fa-solid fa-arrow-right"></i>
+                <span class="punish-step">Mute</span>
+                <i class="fa-solid fa-arrow-right"></i>
+                <span class="punish-step">Kick</span>
+                <i class="fa-solid fa-arrow-right"></i>
+                <span class="punish-step punish-ban">Ban</span>
+              </div>
+              <ul class="rule-bullets">
+                <li>Severe violations may lead to instant ban</li>
+                <li>Punishments are at staff discretion</li>
+              </ul>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Final Notice Box from prompt -->
+        <div class="final-notice-card">
+          <div class="notice-icon">⚠️</div>
+          <div class="notice-text">
+            <h3>Final Notice</h3>
+            <p>By staying in this server, you agree to follow all rules. <strong>Ignorance of rules is not an excuse.</strong></p>
+            <span class="signature">— ScytheMC Management Team</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 5. STAFF TAB (All 20 Roles & Hierarchy) -->
+    <!-- ========================================== -->
+    <section class="tab-pane" id="pane-staff">
+      <div class="section-container">
+        <div class="section-heading text-center">
+          <span class="section-badge">SERVER STRUCTURE</span>
+          <h1 class="section-title">STAFF & LEADERSHIP HIERARCHY</h1>
+          <p class="section-desc">Official staff structure of ScytheMC, from executive leadership and development to server moderation and community assistance.</p>
+        </div>
+
+        <!-- Hierarchy Category Filters -->
+        <div class="staff-filters">
+          <button type="button" class="staff-filter-btn active" data-group="all" onclick="filterStaff('all')">All Staff Ranks (11)</button>
+          <button type="button" class="staff-filter-btn" data-group="exec" onclick="filterStaff('exec')">Executive & Leadership (1-5)</button>
+          <button type="button" class="staff-filter-btn" data-group="admin" onclick="filterStaff('admin')">Staff & Moderation (6-11)</button>
+        </div>
+
+        <!-- 11 Staff Roles Grid Hierarchy -->
+        <div class="ranks-hierarchy-grid" id="staffHierarchyGrid">
+          
+          <!-- 1. Founder -->
+          <div class="role-card tier-founder" data-group="exec">
+            <div class="role-number">#1</div>
+            <div class="role-icon-box"><i class="fa-solid fa-crown"></i></div>
+            <div class="role-info">
+              <span class="role-badge badge-founder">Founder</span>
+              <p class="role-desc">Ultimate authority, server vision, and infrastructure owner.</p>
+              <div class="role-holder">
+                <i class="fa-solid fa-user"></i> Nagesh
+                <a href="https://www.instagram.com/nageshh449/" target="_blank" rel="noopener noreferrer" title="Instagram @nageshh449" style="color: #e1306c; margin-left: 8px; font-size: 13px;"><i class="fa-brands fa-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Owner -->
+          <div class="role-card tier-owner" data-group="exec">
+            <div class="role-number">#2</div>
+            <div class="role-icon-box"><i class="fa-solid fa-chess-king"></i></div>
+            <div class="role-info">
+              <span class="role-badge badge-owner">Owner</span>
+              <p class="role-desc">Direct management of network operations, legalities, and strategic growth.</p>
+              <div class="role-holder"><i class="fa-solid fa-user"></i> sengarv</div>
+            </div>
+          </div>
+
+          <!-- 3. Co-Owner -->
+          <div class="role-card tier-coowner" data-group="exec">
+            <div class="role-number">#3</div>
+            <div class="role-icon-box"><i class="fa-solid fa-gem"></i></div>
+            <div class="role-info">
+              <span class="role-badge badge-coowner">Co-Owner</span>
+              <p class="role-desc">Assists in high-level executive decisions, partnerships, and finance.</p>
+            </div>
+          </div>
+
+          <!-- 4. Developer -->
+          <div class="role-card tier-dev" data-group="exec">
+            <div class="role-number">#4</div>
+            <div class="role-icon-box"><i class="fa-solid fa-code"></i></div>
+            <div class="role-info">
+              <span class="role-badge badge-dev">Developer</span>
+              <p class="role-desc">Custom plugin architecture, network anticheat, and game mechanics.</p>
+              <div class="role-holder"><i class="fa-solid fa-user"></i> dawnverse</div>
+            </div>
+          </div>
+
+          <!-- 5. Manager -->
+          <div class="role-card tier-manager" data-group="exec">
+            <div class="role-number">#5</div>
+            <div class="role-icon-box"><i class="fa-solid fa-briefcase"></i></div>
+            <div class="role-info">
+              <span class="role-badge badge-manager">Manager</span>
+              <p class="role-desc">Staff operations supervisor, event coordinator, and customer support.</p>
+            </div>
+          </div>
+
+          <!-- 6. Admin -->
+          <div class="role-card tier-admin" data-group="admin">
+            <div class="role-number">#6</div>
+            <div class="role-icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="role-info">
+              <span class="role-badge badge-admin">Admin</span>
+              <p class="role-desc">Senior server moderation, rollback management, and discord administration.</p>
+            </div>
+          </div>
+
+          <!-- 7. Jr. Admin -->
+          <div class="role-card tier-jradmin" data-group="admin">
+            <div class="role-number">#7</div>
+            <div class="role-icon-box"><i class="fa-solid fa-shield"></i></div>
+            <div class="role-info">
+              <span class="role-badge badge-jradmin">Jr. Admin</span>
+              <p class="role-desc">Administrative trainee managing appeals, ban reviews, and staff oversight.</p>
+            </div>
+          </div>
+
+          <!-- 8. Mod -->
+          <div class="role-card tier-mod" data-group="admin">
+            <div class="role-number">#8</div>
+            <div class="role-icon-box"><i class="fa-solid fa-gavel"></i></div>
+            <div class="role-info">
+              <span class="role-badge badge-mod">Mod</span>
+              <p class="role-desc">Active in-game moderation, anti-cheat surveillance, and dispute settlement.</p>
+            </div>
+          </div>
+
+          <!-- 9. Jr. Mod -->
+          <div class="role-card tier-jrmod" data-group="admin">
+            <div class="role-number">#9</div>
+            <div class="role-icon-box"><i class="fa-solid fa-user-shield"></i></div>
+            <div class="role-info">
+              <span class="role-badge badge-jrmod">Jr. Mod</span>
+              <p class="role-desc">Chat regulation, player assistance, and handling minor server infractions.</p>
+            </div>
+          </div>
+
+          <!-- 10. Helper -->
+          <div class="role-card tier-helper" data-group="admin">
+            <div class="role-number">#10</div>
+            <div class="role-icon-box"><i class="fa-solid fa-hand-holding-heart"></i></div>
+            <div class="role-info">
+              <span class="role-badge badge-helper">Helper</span>
+              <p class="role-desc">Community guide assisting new players with commands, claims, and inquiries.</p>
+            </div>
+          </div>
+
+          <!-- 11. Trial -->
+          <div class="role-card tier-trial" data-group="admin">
+            <div class="role-number">#11</div>
+            <div class="role-icon-box"><i class="fa-solid fa-clipboard-check"></i></div>
+            <div class="role-info">
+              <span class="role-badge badge-trial">Trial</span>
+              <p class="role-desc">Probationary staff member undergoing training and performance evaluation.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Join Staff Team Call To Action -->
+        <div class="staff-apply-card">
+          <div class="apply-content">
+            <h3>Interested in joining the ScytheMC Staff Team?</h3>
+            <p>We are always recruiting dedicated, mature Helpers and Trainees. Check out the requirements and submit an application on our Discord server.</p>
+          </div>
+          <a href="https://discord.gg/C4p9fJ5aTS" target="_blank" rel="noopener noreferrer" class="btn btn-discord">
+            <i class="fa-brands fa-discord"></i> APPLY ON DISCORD
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- SHOPPING CART SLIDEOUT DRAWER -->
+  <!-- ========================================== -->
+  <div class="cart-drawer-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart">
+    <div class="cart-header">
+      <div class="cart-title">
+        <i class="fa-solid fa-cart-shopping"></i> YOUR CART (<span id="cartItemCount">0</span>)
+      </div>
+      <button type="button" class="cart-close-btn" id="closeCartBtn" onclick="closeCart()" aria-label="Close cart">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Minecraft Username Input in Cart -->
+    <div class="cart-ign-box">
+      <label for="cartUsernameInput"><i class="fa-solid fa-gamepad"></i> Minecraft Username (IGN):</label>
+      <div class="ign-input-wrap">
+        <img src="https://mc-heads.net/avatar/Steve/40" alt="Avatar Preview" id="cartAvatarPreview" class="ign-avatar">
+        <input type="text" id="cartUsernameInput" placeholder="Enter your Minecraft username..." oninput="updateCartAvatar(this.value)">
+      </div>
+      <div class="platform-selector">
+        <label><input type="radio" name="edition" value="Java" checked> Java Edition</label>
+        <label><input type="radio" name="edition" value="Bedrock"> Bedrock Edition</label>
+      </div>
+    </div>
+
+    <!-- Items List Container -->
+    <div class="cart-items" id="cartItemsList">
+      <div class="cart-empty-state">
+        <i class="fa-solid fa-basket-shopping"></i>
+        <p>Your cart is currently empty.</p>
+        <button type="button" class="btn btn-sm btn-primary" onclick="closeCart(); switchTab('store');">Browse Store</button>
+      </div>
+    </div>
+
+    <!-- Cart Footer & Checkout -->
+    <div class="cart-footer">
+      <div class="coupon-box">
+        <input type="text" id="couponCodeInput" placeholder="Discount Code (e.g. SCYTHE20)">
+        <button type="button" class="btn btn-sm btn-secondary" onclick="applyCoupon()">Apply</button>
+      </div>
+      <div id="couponMessage" class="coupon-feedback"></div>
+
+      <div class="cart-summary-breakdown">
+        <div class="summary-line">
+          <span>Subtotal:</span>
+          <span id="cartSubtotal">₹0</span>
+        </div>
+        <div class="summary-line text-success" id="discountLine" style="display: none;">
+          <span>Discount:</span>
+          <span id="cartDiscount">-₹0</span>
+        </div>
+        <div class="summary-line total-line">
+          <span>Grand Total:</span>
+          <span id="cartTotal">₹0</span>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-checkout" id="checkoutBtn" onclick="openCheckoutModal()">
+        <i class="fa-solid fa-lock"></i> PROCEED TO CHECKOUT
+      </button>
+
+      <div class="cart-guarantee">
+        <i class="fa-solid fa-shield-check"></i> Instant automated delivery within 30 seconds
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================== -->
+  <!-- CHECKOUT MODAL -->
+  <!-- ========================================== -->
+  <div class="modal-backdrop" id="checkoutModalBackdrop" onclick="if(event.target === this) closeCheckoutModal()">
+    <div class="checkout-modal">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-shield-halved"></i> SECURE CHECKOUT</h3>
+        <button type="button" class="modal-close" onclick="closeCheckoutModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="checkout-ign-badge" id="checkoutIgnDisplay">
+          <img src="https://mc-heads.net/avatar/Steve/36" id="modalAvatar" alt="Avatar">
+          <div>
+            <strong id="modalIgnName">Player</strong>
+            <span class="badge-edition" id="modalEdition">Java Edition</span>
+          </div>
+        </div>
+
+        <div class="payment-method-selector">
+          <label class="section-sublabel">Select Payment Method (India & International):</label>
+          <div class="payment-options">
+            <label class="pay-option selected">
+              <input type="radio" name="payMethod" value="upi" checked>
+              <div class="pay-option-content">
+                <i class="fa-solid fa-qrcode"></i>
+                <div>
+                  <strong>UPI / QR Code</strong>
+                  <span>GPay, PhonePe, Paytm, BHIM (Zero Fee)</span>
+                </div>
+              </div>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payMethod" value="cards">
+              <div class="pay-option-content">
+                <i class="fa-solid fa-credit-card"></i>
+                <div>
+                  <strong>Credit / Debit Cards</strong>
+                  <span>Visa, Mastercard, RuPay</span>
+                </div>
+              </div>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payMethod" value="netbanking">
+              <div class="pay-option-content">
+                <i class="fa-solid fa-building-columns"></i>
+                <div>
+                  <strong>Net Banking / Wallet</strong>
+                  <span>HDFC, SBI, ICICI, Axis</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-total-box">
+            <span>Total Payable Amount:</span>
+            <strong id="modalFinalAmount">₹0</strong>
+          </div>
+
+          <!-- Official QR Payment & Ticket Claim Guide -->
+          <div class="checkout-qr-box">
+            <div class="checkout-qr-img-wrap">
+              <img id="checkoutQrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi%3A%2F%2Fpay%3Fpa%3Dscythemc%40upi%26pn%3DScytheMC%26cu%3DINR" alt="ScytheMC UPI QR Code" class="checkout-qr-img">
+            </div>
+
+            <div class="upi-id-pill">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+              <span>UPI: <strong>scythemc@upi</strong></span>
+              <button type="button" class="upi-copy-btn" onclick="copyUpiId(event)" title="Copy UPI ID">
+                <i class="fa-solid fa-copy"></i>
+              </button>
+            </div>
+
+            <div class="checkout-instructions-list">
+              <strong><i class="fa-solid fa-circle-info text-accent"></i> Payment Claim Instructions:</strong>
+              <ol>
+                <li>Scan the QR code above to complete your UPI payment.</li>
+                <li>Open a support ticket in <strong>#ticket-channel</strong> on Discord.</li>
+                <li>Send your payment screenshot + Minecraft username to claim your items instantly!</li>
+              </ol>
+            </div>
+
+            <div class="checkout-claim-actions">
+              <a href="https://discord.gg/C4p9fJ5aTS" target="_blank" rel="noopener noreferrer" class="btn-discord-ticket">
+                <i class="fa-brands fa-discord"></i> OPEN TICKET IN #TICKET-CHANNEL
+              </a>
+              <button type="button" class="btn btn-secondary btn-block" onclick="copyClaimDetails()">
+                <i class="fa-solid fa-copy"></i> COPY CLAIM DETAILS FOR TICKET
+              </button>
+              <button type="button" class="btn btn-confirm-pay" onclick="simulateCompletePayment()">
+                <i class="fa-solid fa-circle-check"></i> I HAVE PAID & SUBMITTED PROOF
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MINECRAFT PLAYER IGN LOGIN MODAL -->
+  <!-- ========================================== -->
+  <div class="modal-backdrop" id="ignModalBackdrop" onclick="if(event.target === this) closeIgnModal()">
+    <div class="checkout-modal ign-modal">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-user-astronaut text-accent"></i> SET MINECRAFT USERNAME</h3>
+        <button type="button" class="modal-close" onclick="closeIgnModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="ign-modal-preview-box">
+          <img src="https://mc-heads.net/avatar/Steve/80" id="ignModalAvatar" alt="Minecraft Skin Head" class="ign-modal-avatar">
+          <div class="ign-modal-details">
+            <h4 id="ignModalPreviewName">Steve</h4>
+            <span class="text-accent" id="ignModalEditionLabel">Java / Bedrock Player</span>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label for="ignModalInput" class="section-sublabel">Your In-Game Name (IGN):</label>
+          <input type="text" id="ignModalInput" class="form-input" placeholder="e.g. Steve, Dream, Technoblade..." oninput="previewIgnSkin(this.value)">
+        </div>
+
+        <button type="button" class="btn btn-primary" style="width: 100%;" onclick="savePlayerIgn()">
+          <i class="fa-solid fa-check"></i> CONFIRM & SAVE PLAYER
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="brand-link">
+            <img src="assets/logo.png" alt="Official Scythe Store Logo" class="brand-logo">
+            <div class="brand-text">
+              <span class="brand-title">OFFICIAL SCYTHE <span class="highlight">STORE</span></span>
+              <span class="brand-tag">PLAY.SCYTHEMC.FUN:25565</span>
+            </div>
+          </div>
+          <p class="footer-bio">
+            Official Scythe Store is the premier competitive Minecraft network built for players who demand razor-sharp combat, balanced economies, and rewarding tournaments.
+          </p>
+        </div>
+
+        <div class="footer-nav-col">
+          <h4>NAVIGATION</h4>
+          <ul>
+            <li><a href="#home" onclick="switchTab('home')">Home Overview</a></li>
+            <li><a href="#modes" onclick="switchTab('modes')">Game Modes</a></li>
+            <li><a href="#store" onclick="switchTab('store')">Store & Ranks</a></li>
+            <li><a href="#rules" onclick="switchTab('rules')">Server Rules</a></li>
+            <li><a href="#staff" onclick="switchTab('staff')">Staff & Roles</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <h4>CONNECT WITH US</h4>
+          <p class="footer-meta">Discord Community: 12,000+ members</p>
+          <div class="social-links">
+            <a href="https://discord.gg/C4p9fJ5aTS" target="_blank" rel="noopener noreferrer" class="social-btn discord-btn" title="Discord Community"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-btn yt-btn" title="YouTube Channel"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://www.instagram.com/nageshh449/" target="_blank" rel="noopener noreferrer" class="social-btn ig-btn" title="Follow @nageshh449 on Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+          <div class="server-ip-box" onclick="copyServerIp()">
+            <span>SERVER IP &amp; PORT:</span>
+            <strong>PLAY.SCYTHEMC.FUN:25565</strong>
+            <i class="fa-regular fa-copy"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- RushabGroup Promotional Showcase Banner -->
+      <section class="footer-promo-banner" aria-label="RushabGroup Studio Partner">
+        <div class="footer-promo-glow" aria-hidden="true"></div>
+        <div class="footer-promo-glow-left" aria-hidden="true"></div>
+        
+        <div class="footer-promo-left">
+          <a href="https://rushabgroup.online/" target="_blank" rel="noopener noreferrer" class="footer-promo-brand" title="Visit RushabGroup Official Website">
+            <div class="footer-promo-logo-wrap">
+              <img src="assets/rushabgroup-logo.png" alt="RushabGroup Logo" class="footer-promo-logo" width="36" height="36">
+            </div>
+            <div class="footer-promo-titles">
+              <span class="footer-promo-eyebrow">
+                <span class="pulse-dot-cyan"></span> CREATIVE ENGINEERING STUDIO
+              </span>
+              <h3 class="footer-promo-name">Rushab<span class="highlight">Group</span></h3>
+            </div>
+          </a>
+          <p class="footer-promo-desc">
+            Crafting world-class web applications, high-converting digital storefronts, and cinematic visual identities for Minecraft networks and web brands.
+          </p>
+          <div class="footer-promo-perks">
+            <span class="promo-pill"><i class="fa-solid fa-code"></i> Next-Gen Web Platforms</span>
+            <span class="promo-pill"><i class="fa-solid fa-bolt"></i> High-Speed Checkout</span>
+            <span class="promo-pill"><i class="fa-solid fa-palette"></i> Tailored UI/UX & Branding</span>
+          </div>
+        </div>
+
+        <div class="footer-promo-right">
+          <span class="footer-promo-cta-label">Need a custom web store?</span>
+          <a href="https://rushabgroup.online/" target="_blank" rel="noopener noreferrer" class="btn btn-promo-rg">
+            <span>Explore RushabGroup</span>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </section>
+    </div>
+  </footer>
+
+  <!-- Script logic -->
+  <script src="app.js"></script>
+</body>
+</html>
