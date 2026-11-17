@@ -187,6 +187,8 @@ export default function HeroSection() {
               <Image
                 src="/logo.webp"
                 alt="Official Scythe Store Champion"
+                width={580}
+                height={580}
                 className="w-full h-auto aspect-[1/1] object-cover group-hover:scale-105 transition-transform duration-500"
                 priority
                 placeholder="blur"

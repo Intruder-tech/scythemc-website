@@ -140,7 +140,7 @@ export default function Page() {
         </div>
       </aside>
 
-      <style global>{`
+      <style>{`
         @keyframes marquee {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
