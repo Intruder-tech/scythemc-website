@@ -246,3 +246,8 @@ html[data-intro="seen"] .intro { display: none; }
   15% { opacity: 1; }
   100% { opacity: 0; transform: translateY(-260px); }
 }
+
+/* Phones/tablets: room for the floating bottom tab bar so it never covers the footer */
+@media (max-width: 1023.98px) {
+  body { padding-bottom: calc(92px + env(safe-area-inset-bottom)); }
+}
