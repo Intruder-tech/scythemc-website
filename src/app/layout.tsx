@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Outfit, Plus_Jakarta_Sans, Silkscreen } from "next/font/google";
+import { Lilita_One, Nunito, Silkscreen } from "next/font/google";
 import "./globals.css";
+import { SITE_URL } from "@/lib/site";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const lilita = Lilita_One({
+  variable: "--font-lilita",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800", "900"],
+  weight: "400",
 });
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta-sans",
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 const silkscreen = Silkscreen({
@@ -20,10 +20,21 @@ const silkscreen = Silkscreen({
   weight: ["400", "700"],
 });
 
+const description =
+  "Official Scythe Store (PLAY.SCYTHEMC.FUN:25565). Purchase VIP, MVP, THE SCYTHE ranks, Crate Keys, spawners, and participate in tournaments.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Scythe MC • Official Minecraft Network Store",
-  description:
-    "Official Scythe Store (PLAY.SCYTHEMC.FUN:25565). Purchase VIP, MVP, THE SCYTHE ranks, Crate Keys, spawners, and participate in tournaments.",
+  description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "Scythe MC",
+    title: "Scythe MC • Official Minecraft Network Store",
+    description,
+    images: ["/logo.webp"],
+  },
 };
 
 export default function RootLayout({
@@ -32,9 +43,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${plusJakartaSans.variable} ${silkscreen.variable} h-full antialiased`}
+      className={`${lilita.variable} ${nunito.variable} ${silkscreen.variable} h-full`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-[#06070d] text-[#f1f5f9] overflow-x-hidden">{children}</body>
+      <head>
+        {/* Before first paint: hide the intro if it already played this browser session. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(sessionStorage.getItem("scythe-intro-seen")==="1")document.documentElement.dataset.intro="seen"}catch(e){}`,
+          }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col overflow-x-hidden">{children}</body>
     </html>
   );
 }

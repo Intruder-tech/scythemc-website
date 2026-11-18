@@ -1,71 +1,248 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   SCYTHE MC • TWO-COLOR PALETTE (logo-derived only)
-   BLUE  = #0088FF  (scythe blade / "SCYTHE" text)
-   YELLOW = #FFCC00 ("MC" text)
-   Every chromatic color on the site is one of these two hues (alpha variants
-   for depth). Backgrounds stay near-black; text stays neutral.
+   SCYTHE MC — palette sampled directly from public/logo.webp
+   ink     : the thick navy outlines + shadows around every letter
+   royal   : deep blue bevel on "SCYTHE"
+   azure   : main face of "SCYTHE"
+   cyan    : scythe blade highlight
+   gold/sun: "MC" face and its top highlight
+   ember   : orange lower bevel of "MC"
+   steel   : scythe handle
+   frost   : white specular highlights
    ========================================================================== */
 
 @theme {
-  --color-blue: #0088ff;
-  --color-yellow: #ffcc00;
+  --color-ink-950: #030620;
+  --color-ink-900: #06103a;
+  --color-ink-800: #0a1a5c;
+  --color-ink-700: #13288a;
 
-  --color-bg-main: #06070d;
-  --color-bg-card: #0b0d18;
-  --color-bg-card-hover: #101324;
-  --color-bg-surface: #14182e;
-  --color-bg-header: rgba(6, 7, 13, 0.94);
+  --color-royal: #0238c7;
+  --color-azure: #0197fa;
+  --color-cyan: #05e9fb;
 
-  --color-border-subtle: rgba(255, 255, 255, 0.06);
-  --color-border-blue: rgba(0, 136, 255, 0.35);
-  --color-border-yellow: rgba(255, 204, 0, 0.35);
+  --color-gold: #fcc604;
+  --color-sun: #fde518;
+  --color-ember: #e8480f;
 
-  --color-text-main: #f1f5f9;
-  --color-text-muted: #94a3b8;
-  --color-text-dim: #64748b;
+  --color-steel: #393648;
+  --color-frost: #f9f9fe;
+  --color-mist: #a8b4e0;
+  --color-dim: #6b78b3;
+}
 
-  /* shadcn theme tokens (two-tone) */
-  --background: #06070d;
-  --foreground: #f1f5f9;
-  --card: #0b0d18;
-  --card-foreground: #f1f5f9;
-  --popover: #0b0d18;
-  --popover-foreground: #f1f5f9;
-  --primary: #0088ff;
-  --primary-foreground: #06070d;
-  --secondary: #14182e;
-  --secondary-foreground: #f1f5f9;
-  --muted: #14182e;
-  --muted-foreground: #94a3b8;
-  --accent: #ffcc00;
-  --accent-foreground: #06070d;
-  --destructive: #ffcc00;
-  --destructive-foreground: #06070d;
-  --border: rgba(0, 136, 255, 0.25);
-  --input: rgba(0, 136, 255, 0.25);
-  --ring: #0088ff;
-  --radius: 0.625rem;
+@theme inline {
+  --font-display: var(--font-lilita);
+  --font-sans: var(--font-nunito);
+  --font-pixel: var(--font-silkscreen);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, sans-serif;
-  overflow-x: hidden;
+  background-color: var(--color-ink-950);
+  color: var(--color-frost);
+  font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink-950);
 }
 
-button {
-  cursor: pointer;
-  border: none;
-  background: none;
-  font-family: inherit;
+/* Logo-style lettering: navy outline + stacked hard shadow, no blur. */
+.logo-type {
+  -webkit-text-stroke: 0.14em var(--color-ink-950);
+  paint-order: stroke fill;
+  text-shadow: 0 0.08em 0 var(--color-ink-950);
+}
+.logo-type-gold {
+  color: var(--color-gold);
+  -webkit-text-stroke: 0.14em var(--color-ink-950);
+  paint-order: stroke fill;
+  text-shadow:
+    0 0.05em 0 var(--color-ember),
+    0 0.11em 0 var(--color-ink-950);
+}
+
+/* ==========================================================================
+   INTRO TRAILER — one 7s timeline. Every element runs a 7s animation and its
+   keyframe percentages are positions on that shared clock (1% = 70ms).
+   0.0–0.6  letterbox bars close in
+   0.5–2.0  "Scythe MC Network presents"
+   2.1–3.0  "Season 2"            (hard cut)
+   3.0–3.8  "The harvest begins"  (hard cut)
+   3.8      blade slash + flash, logo slams in, camera shake, embers rise
+   4.9      server address reveals
+   6.3–6.9  bars open like a curtain onto the site
+   ========================================================================== */
+
+.intro { animation: intro-clock 7s linear forwards; }
+/* Already played this session (flag set by the <head> script in layout.tsx). */
+html[data-intro="seen"] .intro { display: none; }
+/* Hold the whole timeline at frame 0 behind the click-to-enter gate. */
+.intro.is-waiting,
+.intro.is-waiting [class*="intro-"]:not(.intro-gate) { animation-play-state: paused; }
+.intro.is-skipping { animation: intro-skip 0.35s ease-out forwards; }
+@keyframes intro-clock {
+  0%, 99% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+@keyframes intro-skip {
+  to { opacity: 0; visibility: hidden; }
+}
+
+.intro-bar { height: clamp(48px, 11vh, 112px); }
+.intro-bar-top { animation: intro-bar-top 7s cubic-bezier(0.7, 0, 0.3, 1) both; }
+.intro-bar-bottom { animation: intro-bar-bottom 7s cubic-bezier(0.7, 0, 0.3, 1) both; }
+@keyframes intro-bar-top {
+  0% { transform: translateY(-100%); }
+  8.6%, 90% { transform: translateY(0); }
+  98.6%, 100% { transform: translateY(-100%); }
+}
+@keyframes intro-bar-bottom {
+  0% { transform: translateY(100%); }
+  8.6%, 90% { transform: translateY(0); }
+  98.6%, 100% { transform: translateY(100%); }
+}
+
+.intro-progress { animation: intro-progress 7s linear both; transform-origin: left; }
+@keyframes intro-progress {
+  0% { transform: scaleX(0); }
+  88.6%, 100% { transform: scaleX(1); }
+}
+
+.intro-stage { animation: intro-stage 7s linear both; }
+@keyframes intro-stage {
+  0%, 90% { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
+
+.intro-shake { animation: intro-shake 7s linear both; }
+@keyframes intro-shake {
+  0%, 55.7% { transform: translate(0, 0); }
+  56.4% { transform: translate(-10px, 6px); }
+  57.1% { transform: translate(9px, -7px); }
+  57.8% { transform: translate(-6px, -4px); }
+  58.5% { transform: translate(5px, 5px); }
+  59.2% { transform: translate(-2px, 2px); }
+  60%, 100% { transform: translate(0, 0); }
+}
+
+.intro-card-1 { animation: intro-card-1 7s ease-out both; }
+@keyframes intro-card-1 {
+  0%, 7.1% { opacity: 0; letter-spacing: 0.2em; }
+  11.4% { opacity: 1; }
+  25.7% { opacity: 1; }
+  28.6%, 100% { opacity: 0; letter-spacing: 0.55em; }
+}
+
+.intro-card-2 { animation: intro-card-2 7s ease-out both; }
+@keyframes intro-card-2 {
+  0%, 29.9% { opacity: 0; transform: scale(1.25); }
+  30%, 42.8% { opacity: 1; }
+  42.8% { transform: scale(1); }
+  42.9%, 100% { opacity: 0; transform: scale(1); }
+}
+
+.intro-card-3 { animation: intro-card-3 7s ease-out both; }
+@keyframes intro-card-3 {
+  0%, 42.9% { opacity: 0; transform: scale(1.25); }
+  43%, 54.2% { opacity: 1; }
+  54.2% { transform: scale(1); }
+  54.3%, 100% { opacity: 0; transform: scale(1); }
+}
+
+.intro-slash { animation: intro-slash 7s cubic-bezier(0.5, 0, 0.2, 1) both; }
+@keyframes intro-slash {
+  0%, 53.6% { transform: translateX(-130%) rotate(-24deg); opacity: 0; }
+  53.7% { opacity: 1; }
+  57.8% { transform: translateX(130%) rotate(-24deg); opacity: 1; }
+  57.9%, 100% { transform: translateX(130%) rotate(-24deg); opacity: 0; }
+}
+
+.intro-flash { animation: intro-flash 7s linear both; }
+@keyframes intro-flash {
+  0%, 54.9% { opacity: 0; }
+  55.5% { opacity: 0.9; }
+  61.4%, 100% { opacity: 0; }
+}
+
+.intro-logo { animation: intro-logo 7s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
+@keyframes intro-logo {
+  0%, 55.6% { opacity: 0; transform: scale(2.4); }
+  57.6% { opacity: 1; transform: scale(0.92); }
+  59.4% { transform: scale(1.05); }
+  61.4% { transform: scale(1); }
+  90% { transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1.12); }
+}
+
+.intro-flare { animation: intro-flare 7s ease-out both; }
+@keyframes intro-flare {
+  0%, 55.7% { opacity: 0; transform: scaleX(0); }
+  58.6% { opacity: 1; transform: scaleX(1); }
+  75.7%, 100% { opacity: 0.45; transform: scaleX(1); }
+}
+
+.intro-rays { animation: intro-rays-in 7s linear both, intro-spin 24s linear infinite; }
+@keyframes intro-rays-in {
+  0%, 55.7% { opacity: 0; }
+  61.4%, 100% { opacity: 1; }
+}
+@keyframes intro-spin { to { rotate: 360deg; } }
+
+.intro-address { animation: intro-address 7s ease-out both; }
+@keyframes intro-address {
+  0%, 70% { opacity: 0; transform: translateY(10px); letter-spacing: 0.6em; }
+  77%, 100% { opacity: 1; transform: translateY(0); letter-spacing: 0.3em; }
+}
+
+.intro-ember { animation-name: intro-ember; animation-timing-function: ease-out; animation-fill-mode: both; }
+@keyframes intro-ember {
+  0% { opacity: 0; transform: translate(0, 0); }
+  12% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--drift), -62vh); }
+}
+
+.intro-grain { animation: intro-grain 0.5s steps(4) infinite; }
+@keyframes intro-grain {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3%, 2%); }
+  50% { transform: translate(2%, -3%); }
+  75% { transform: translate(-2%, -1%); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes bubble-pop {
+  from { transform: scale(0.6); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Founder page: slow aura behind the character + rising sparks */
+.founder-aura {
+  background: repeating-conic-gradient(rgba(5, 233, 251, 0.14) 0deg 6deg, transparent 6deg 24deg),
+    radial-gradient(circle, rgba(2, 56, 199, 0.35), transparent 70%);
+  mask-image: radial-gradient(circle, black 30%, transparent 70%);
+  animation: aura-spin 30s linear infinite;
+}
+@keyframes aura-spin { to { rotate: 360deg; } }
+.founder-spark { opacity: 0; animation: spark-rise 4s ease-out infinite; }
+@keyframes spark-rise {
+  0% { opacity: 0; transform: translateY(0); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-260px); }
 }
