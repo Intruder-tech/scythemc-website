@@ -117,6 +117,7 @@ export default function FounderPage() {
               <div className="absolute inset-0">
                 <SkinCharacter
                   name={FOUNDER.name}
+                  skinUrl="/skins/founder.png"
                   cape
                   capeLogo="/logo.webp"
                   lines={["HEY, WELCOME TO SCYTHE MC!", "GRAB A RANK, JOIN THE FUN!", "NEW GAME MODES INCOMING!", "SEE YOU IN-GAME!"]}
