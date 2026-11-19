@@ -251,3 +251,38 @@ html[data-intro="seen"] .intro { display: none; }
 @media (max-width: 1023.98px) {
   body { padding-bottom: calc(92px + env(safe-area-inset-bottom)); }
 }
+
+/* Founders' Island: night sky behind the 3D scene */
+.founders-sky {
+  background:
+    radial-gradient(ellipse at 50% 118%, #0a1a5c 0%, #071044 38%, transparent 70%),
+    linear-gradient(180deg, #02041a 0%, #030620 55%, #050b33 100%);
+}
+.founders-stars {
+  background-image:
+    radial-gradient(1.5px 1.5px at 20px 30px, #f9f9fe 50%, transparent 51%),
+    radial-gradient(1px 1px at 120px 80px, #a8b4e0 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 210px 150px, #05e9fb 50%, transparent 51%),
+    radial-gradient(1px 1px at 300px 40px, #f9f9fe 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 380px 210px, #fde518 50%, transparent 51%),
+    radial-gradient(1px 1px at 60px 250px, #f9f9fe 50%, transparent 51%),
+    radial-gradient(1px 1px at 250px 270px, #a8b4e0 50%, transparent 51%);
+  background-size: 420px 300px;
+  mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 90%);
+  animation: founders-twinkle 5s ease-in-out infinite alternate;
+}
+@keyframes founders-twinkle {
+  from { opacity: 0.55; }
+  to { opacity: 0.95; }
+}
+.founders-aurora {
+  background: linear-gradient(100deg, transparent 8%, rgba(5, 233, 251, 0.1) 28%, rgba(2, 56, 199, 0.18) 48%, rgba(5, 233, 251, 0.08) 68%, transparent 88%);
+  filter: blur(28px);
+  mask-image: linear-gradient(to bottom, black, transparent);
+  animation: founders-aurora 20s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes founders-aurora {
+  from { transform: translateX(-8%) skewY(-3deg); }
+  to { transform: translateX(8%) skewY(2deg); }
+}

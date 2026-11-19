@@ -3,8 +3,10 @@
  * Text is kept exactly as the players wrote it. Only add real reviews from real players.
  */
 export interface Review {
-  /** Name as the player signed the review. */
+  /** Name as the player signed the review, or an alias when they asked to stay anonymous. */
   name: string;
+  /** true = `name` is an alias we chose because the reviewer asked not to be named. */
+  alias?: boolean;
   /** Minecraft username, only when the player gave it; used for their head avatar. */
   ign?: string;
   /** Out of 5; decimals allowed (e.g. 4.9). Omit when the player didn't give one. */
@@ -13,8 +15,8 @@ export interface Review {
   title?: string;
   /** Review body; separate paragraphs with a blank line. */
   text: string;
-  /** Bento tile: "wide" spans 2 columns, "tall" spans 2 rows, "full" spans the whole row. */
-  size?: "wide" | "tall" | "full";
+  /** "wide" = featured tile spanning 2 columns (use for one review). */
+  size?: "wide";
 }
 
 export const REVIEWS: Review[] = [
@@ -35,7 +37,6 @@ I'd give it a 4.9/5 because, let's be real, nothing is perfect, and there's alwa
   },
   {
     name: "Yash",
-    size: "tall",
     rating: 5,
     title: "An Amazing Minecraft Server! ❤️🔥",
     text: `SyctheMC is genuinely one of the best servers I've had the pleasure of playing on! The player base is really good, friendly, and supportive. The owner and higher staff members are extremely helpful and always ready to support the community.
@@ -72,7 +73,6 @@ There is still some room for improvement in staff management, internal coordinat
   },
   {
     name: "IMMORTAL",
-    size: "wide",
     rating: 5,
     title: "An Amazing Minecraft Server! ❤️🔥",
     text: `Scythe MC is genuinely one of the best servers I’ve had the pleasure of playing on! With around 50ms ping for Indian players and a rock-solid 20 TPS, the gameplay is completely lag-free and super responsive.
@@ -99,7 +99,6 @@ Highly Recommended! 5/5 Stars! ⭐⭐⭐⭐⭐`,
   },
   {
     name: "Dark_Hardik",
-    size: "tall",
     rating: 5,
     title: "SCYTHE MC – Server Review",
     text: `ScytheMC is a Minecraft server worth checking out! 👑
@@ -117,8 +116,8 @@ If you're a Minecraft player who enjoys PvP and multiplayer adventures, give Scy
 See you in-game! 🔥`,
   },
   {
-    name: "Scythe MC player",
-    size: "tall",
+    name: "PvP_Wanderer",
+    alias: true,
     rating: 5,
     title: "Scythe MC – Server Review",
     text: `Scythe MC is an amazing Minecraft server with an exciting gaming experience. The server offers enjoyable gameplay, a competitive environment, and a great community for Minecraft players.
@@ -130,7 +129,8 @@ Final Verdict: Highly recommended for Minecraft players looking for fun, competi
 🔥 GG Scythe MC! Keep Growing!`,
   },
   {
-    name: "Scythe MC player",
+    name: "NightOwl_Miner",
+    alias: true,
     text: `SyctheMC is honestly one of the best Minecraft servers I've played on! ❤️ The player base is amazing, friendly, and very supportive. The owner and higher staff members are extremely helpful and supportive, especially the founder Nagesh. 👑
 
 I genuinely enjoy playing on this server because of its lag-free gameplay, supportive staff team, and awesome community. Everyone makes the experience even better! 💯
@@ -140,7 +140,6 @@ If you're looking for a server with great performance, helpful staff, and an ama
   {
     name: "HARRY",
     rating: 5,
-    size: "full",
     title: "10/10 Server! Don't sleep on SyctheMC 🔥",
     text: `Been playing here for a while and honestly, it’s unmatched. Zero lag, chill players, and an active staff team that actually listens to the community.
 

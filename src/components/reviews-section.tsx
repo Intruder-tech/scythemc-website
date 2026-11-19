@@ -1,5 +1,6 @@
 import { Star } from "lucide-react";
 import { HIGHLIGHTS, REVIEWS } from "@/lib/reviews";
+import ReviewText from "@/components/review-text";
 
 /** Five stars with partial fill for decimal ratings (4.9 → last star 90% gold). */
 function Stars({ rating, size = "h-4 w-4" }: { rating: number; size?: string }) {
@@ -83,19 +84,13 @@ export default function ReviewsSection() {
           ))}
         </ul>
 
-        {/* Bento grid: fixed reading order, long reviews get wide/tall tiles, no holes */}
+        {/* Compact grid: one featured wide tile, equal cards, long reviews trimmed with "Read more" */}
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {REVIEWS.map((r, i) => (
             <figure
               key={`${r.name}-${i}`}
               className={`flex flex-col gap-4 rounded-xl border-2 p-6 shadow-[0_6px_0_var(--color-ink-950)] ${
-                r.size === "full"
-                  ? "border-gold/60 bg-ink-800 md:col-span-2 lg:col-span-3"
-                  : r.size === "wide"
-                  ? "border-ink-700 bg-ink-800 md:col-span-2"
-                  : r.size === "tall"
-                    ? "border-ink-700 bg-ink-900 lg:row-span-2"
-                    : "border-ink-700 bg-ink-900"
+                r.size === "wide" ? "border-gold/50 bg-ink-800 md:col-span-2" : "border-ink-700 bg-ink-900"
               }`}
             >
               {r.rating !== undefined && (
@@ -105,18 +100,16 @@ export default function ReviewsSection() {
                 </div>
               )}
               {r.title && (
-                <p className={`font-display tracking-wide text-frost ${r.size === "wide" || r.size === "full" ? "text-2xl" : "text-xl"}`}>{r.title}</p>
+                <p className={`font-display tracking-wide text-frost ${r.size === "wide" ? "text-2xl" : "text-xl"}`}>{r.title}</p>
               )}
-              <blockquote className="flex flex-col gap-3 text-sm leading-relaxed text-mist">
-                {r.text.split(/\n\s*\n/).map((para, j) => (
-                  <p key={j}>{para}</p>
-                ))}
-              </blockquote>
+              <ReviewText text={r.text} />
               <figcaption className="mt-auto flex items-center gap-3 border-t-2 border-ink-700/60 pt-4">
                 <Avatar name={r.name} ign={r.ign} />
                 <div className="min-w-0">
                   <p className="truncate font-display text-lg tracking-wide">{r.name}</p>
-                  <p className="font-pixel text-[10px] text-dim">PLAYER REVIEW</p>
+                  <p className="font-pixel text-[10px] text-dim">
+                    {r.alias ? "ALIAS · NAME WITHHELD" : "PLAYER REVIEW"}
+                  </p>
                 </div>
               </figcaption>
             </figure>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Lilita_One, Nunito, Silkscreen } from "next/font/google";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
+import SmoothScroll from "@/components/smooth-scroll";
 
 const lilita = Lilita_One({
   variable: "--font-lilita",
@@ -54,7 +55,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col overflow-x-hidden">{children}</body>
+      <body className="min-h-full flex flex-col overflow-x-hidden">
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }

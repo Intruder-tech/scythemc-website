@@ -3,13 +3,13 @@ import Link from "next/link";
 import { CalendarDays, Coins, Gamepad2, Gem, HeartPulse, Rocket, Store, Swords } from "lucide-react";
 import Navbar from "@/components/navbar";
 import SiteFooter from "@/components/site-footer";
-import SkinCharacter from "@/components/skin-character";
+import FoundersStage from "@/components/founders-stage";
 import BrandIcon, { type Brand } from "@/components/brand-icon";
-import { FOUNDER, SERVER_HOST } from "@/lib/site";
+import { CO_FOUNDER, FOUNDER, SERVER_HOST } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Founder • Scythe MC",
-  description: "Meet the founder of Scythe MC, a proper economy Minecraft server with events and more.",
+  title: "Founders • Scythe MC",
+  description: "Meet the founder and co-founder of Scythe MC, a proper economy Minecraft server with events and more.",
   alternates: { canonical: "/founder" },
 };
 
@@ -40,13 +40,6 @@ const ROADMAP = [
   },
 ];
 
-// Deterministic spark positions around the founder (same on server and client).
-const SPARKS = Array.from({ length: 14 }, (_, i) => ({
-  left: `${8 + ((i * 37) % 84)}%`,
-  delay: `${(i * 0.53) % 4}s`,
-  duration: `${3.2 + ((i * 7) % 5) * 0.4}s`,
-  color: i % 3 === 0 ? "var(--color-cyan)" : "var(--color-gold)",
-}));
 
 const SOCIALS: { brand: Brand; label: string; handle: string; url: string; face: string }[] = [
   {
@@ -98,62 +91,85 @@ export default function FounderPage() {
     <>
       <Navbar />
       <main className="flex-1">
-        {/* Hero: waving character + intro */}
-        <section className="border-b-2 border-ink-800">
-          <div className="mx-auto grid max-w-[1240px] items-center gap-12 px-4 py-14 sm:px-6 md:py-20 lg:grid-cols-[1fr_1.1fr]">
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-[420px]">
-              {/* pedestal */}
-              <div className="absolute inset-x-[6%] bottom-0 top-[18%] rounded-[48%] border-2 border-ink-800 bg-ink-900" />
-              <div className="absolute inset-x-[18%] bottom-[8%] top-[34%] rounded-[48%] border-2 border-ink-700 bg-ink-800" />
-              {/* slow-turning aura + rising sparks */}
-              <div className="founder-aura pointer-events-none absolute inset-x-[10%] bottom-[2%] top-[22%] rounded-full opacity-60" />
-              {SPARKS.map((sp, i) => (
-                <span
-                  key={i}
-                  className="founder-spark pointer-events-none absolute bottom-[10%] h-1.5 w-1.5"
-                  style={{ left: sp.left, background: sp.color, animationDelay: sp.delay, animationDuration: sp.duration }}
-                />
-              ))}
-              <div className="absolute inset-0">
-                <SkinCharacter
-                  name={FOUNDER.name}
-                  skinUrl="/skins/founder.png"
-                  cape
-                  capeLogo="/logo.webp"
-                  lines={["HEY, WELCOME TO SCYTHE MC!", "GRAB A RANK, JOIN THE FUN!", "NEW GAME MODES INCOMING!", "SEE YOU IN-GAME!"]}
-                />
-              </div>
+        {/* The Founders' Island: one 3D scene, scroll-driven camera (see founders-stage.tsx) */}
+        <FoundersStage
+          founder={{
+            name: FOUNDER.name,
+            skinUrl: "/skins/founder-nagesh.png",
+            capeColor: "#0238c7",
+            lines: ["HEY, WELCOME TO SCYTHE MC!", "GRAB A RANK, JOIN THE FUN!", "NEW GAME MODES INCOMING!", "SEE YOU IN-GAME!"],
+            greet: "YO STARVOS!",
+          }}
+          coFounder={{
+            name: CO_FOUNDER.name,
+            skinUrl: "/skins/co-founder.png",
+            capeColor: "#a8320b",
+            lines: ["HEY, I'M THE CO-FOUNDER!", "WELCOME TO SCYTHE MC!", "THANKS FOR PLAYING!", "SEE YOU IN-GAME!"],
+            greet: "HEY NAGESH!",
+          }}
+          intro={
+            <div className="mx-auto max-w-2xl">
+              <p className="font-pixel text-xs text-gold">MEET THE PEOPLE BEHIND SCYTHE</p>
+              <h1 className="logo-type mt-3 font-display text-6xl uppercase leading-none tracking-wide text-frost sm:text-7xl lg:text-8xl">
+                The Founders
+              </h1>
+              <p className="mt-4 text-lg text-mist">Two players, one floating island. Scroll to meet them.</p>
+              <p className="mt-6 animate-bounce font-pixel text-[11px] text-dim">▼ SCROLL</p>
             </div>
-
-            <div className="flex flex-col items-start gap-6">
+          }
+          founderCard={
+            <div className="flex flex-col items-start gap-4 rounded-2xl border-2 border-ink-700 bg-ink-950 p-6 shadow-[0_8px_0_rgba(3,6,32,0.9)] sm:p-7">
               <span className="rounded-full border-2 border-ink-950 bg-gold px-3 py-1 font-pixel text-[11px] text-ink-950 shadow-[0_3px_0_var(--color-ember)]">
                 ★ FOUNDER &amp; OWNER
               </span>
-              <h1 className="logo-type font-display text-6xl uppercase leading-none tracking-wide text-frost sm:text-7xl">
+              <h2 className="logo-type max-w-full break-words font-display text-[clamp(2rem,4vw,2.75rem)] uppercase leading-none tracking-wide text-frost">
                 {FOUNDER.name}
-              </h1>
-              <p className="max-w-lg text-lg leading-relaxed text-mist">
+              </h2>
+              <p className="leading-relaxed text-mist">
                 The founder of <strong className="text-frost">Scythe MC</strong>, a proper economy server that hosts
                 events and more. Say hi on any of the channels below.
               </p>
               <div className="flex flex-wrap gap-3">
-                {SOCIALS.map((s) => (
+                {SOCIALS.map((so) => (
                   <a
-                    key={s.brand}
-                    href={s.url}
+                    key={so.brand}
+                    href={so.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`${s.label} ${s.handle}`}
-                    className={`flex h-12 w-12 items-center justify-center rounded-lg border-2 border-ink-950 transition-transform active:translate-y-1 active:shadow-none ${s.face}`}
+                    aria-label={`${so.label} ${so.handle}`}
+                    className={`flex h-11 w-11 items-center justify-center rounded-lg border-2 border-ink-950 transition-transform active:translate-y-1 active:shadow-none ${so.face}`}
                   >
-                    <BrandIcon brand={s.brand} className="h-6 w-6" />
+                    <BrandIcon brand={so.brand} className="h-5 w-5" />
                   </a>
                 ))}
               </div>
-              <p className="font-pixel text-[11px] text-dim">MOVE YOUR CURSOR · CLICK HIM · DRAG TO SEE HIS CAPE</p>
+              <p className="font-pixel text-[10px] text-dim">CLICK HIM ON THE ISLAND</p>
             </div>
-          </div>
-        </section>
+          }
+          coFounderCard={
+            <div className="flex flex-col items-start gap-4 rounded-2xl border-2 border-ink-700 bg-ink-950 p-6 shadow-[0_8px_0_rgba(3,6,32,0.9)] sm:p-7">
+              <span className="rounded-full border-2 border-ink-950 bg-cyan px-3 py-1 font-pixel text-[11px] text-ink-950 shadow-[0_3px_0_var(--color-azure)]">
+                ★ CO-FOUNDER
+              </span>
+              <h2 className="logo-type max-w-full whitespace-nowrap font-display text-[clamp(1.5rem,3.2vw,2.4rem)] uppercase leading-none tracking-wide text-frost">
+                {CO_FOUNDER.name}
+              </h2>
+              <p className="leading-relaxed text-mist">
+                Right alongside {FOUNDER.name} is the co-founder of <strong className="text-frost">Scythe MC</strong>,
+                helping run the server, shape its events and look after the community.
+              </p>
+              <p className="font-pixel text-[10px] text-dim">CLICK HIM ON THE ISLAND</p>
+            </div>
+          }
+          outro={
+            <div>
+              <h2 className="logo-type-gold font-display text-5xl uppercase leading-none tracking-wide sm:text-6xl">
+                Two founders. One Scythe.
+              </h2>
+              <p className="mt-3 text-mist">Keep scrolling to see what they&apos;re building.</p>
+            </div>
+          }
+        />
 
         {/* About the server */}
         <section className="border-b-2 border-ink-800 bg-ink-900 py-20">

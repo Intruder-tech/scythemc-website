@@ -4,6 +4,17 @@ import { useEffect, useRef, useState } from "react";
 import { drawCape, drawCharacterSkin, type Expression, type Look } from "@/lib/founder-skin-art";
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+
+/*
+ * Characters start one at a time, each in an idle moment, so several cards scrolling into
+ * view don't all compile shaders and upload textures in the same frame (scroll jank).
+ */
+let initQueue: Promise<unknown> = Promise.resolve();
+const waitForIdle = () =>
+  new Promise<void>((resolve) => {
+    if ("requestIdleCallback" in window) window.requestIdleCallback(() => resolve(), { timeout: 400 });
+    else setTimeout(resolve, 40);
+  });
 const ease = (p: number) => p * p * (3 - 2 * p);
 
 export interface SkinCharacterProps {
@@ -51,6 +62,23 @@ export default function SkinCharacter({
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [ready, setReady] = useState(false);
+  // Don't download/parse three.js or start a render loop until the character is near the screen.
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "400px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const [bubble, setBubble] = useState(lines[0]);
   // Keep the latest text props without re-creating the 3D scene.
   const textRef = useRef({ lines, clickLines });
@@ -60,10 +88,13 @@ export default function SkinCharacter({
   const lookKey = JSON.stringify(look ?? {});
 
   useEffect(() => {
+    if (!inView) return;
     let disposed = false;
     let cleanup = () => {};
 
-    import("skinview3d")
+    initQueue = initQueue
+      .then(waitForIdle)
+      .then(() => (disposed ? Promise.reject(new Error("unmounted")) : import("skinview3d")))
       .then(({ SkinViewer, FunctionAnimation }) => {
         const wrap = wrapRef.current;
         const canvas = canvasRef.current;
@@ -81,6 +112,8 @@ export default function SkinCharacter({
           model: skinUrl ? "auto-detect" : "default",
           cape: cape ? drawCape(document.createElement("canvas"), undefined, capeColor) : undefined,
           zoom: compact ? 0.78 : 0.85,
+          // Retina-level resolution is invisible at card size but costs up to 4x the GPU work.
+          pixelRatio: Math.min(window.devicePixelRatio || 1, compact ? 1.25 : 1.5),
           fov: 38,
         });
         viewer.autoRotate = false;
@@ -222,7 +255,7 @@ export default function SkinCharacter({
       disposed = true;
       cleanup();
     };
-  }, [skinUrl, lookKey, cape, capeLogo, capeColor, firstWave, compact]);
+  }, [inView, skinUrl, lookKey, cape, capeLogo, capeColor, firstWave, compact]);
 
   return (
     <div className="relative h-full w-full">

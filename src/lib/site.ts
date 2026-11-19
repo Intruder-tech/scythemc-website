@@ -13,3 +13,8 @@ export const FOUNDER = {
   youtube: { url: "https://www.youtube.com/@Bellator_NT", handle: "@Bellator_NT" },
   discord: { url: "https://discord.gg/8JpW7GkhSW", handle: "Founder's Discord" },
 };
+
+/** Co-founder: shown on /founder beside the founder, no socials. */
+export const CO_FOUNDER = {
+  name: "starvosgamingyt",
+};

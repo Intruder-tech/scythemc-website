@@ -5,7 +5,7 @@ const LINKS = [
   { label: "Store", href: "/#store" },
   { label: "How to buy", href: "/#how-to-buy" },
   { label: "Discord", href: DISCORD_URL, external: true },
-  { label: "Founder", href: "/founder" },
+  { label: "Founders", href: "/founder" },
 ];
 
 export default function SiteFooter() {

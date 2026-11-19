@@ -39,7 +39,7 @@ const ITEMS: Item[] = [
   { id: "gallery", label: "Gallery", href: "/#gallery", icon: Images },
   { id: "reviews", label: "Reviews", href: "/#reviews", icon: MessageSquareQuote },
   { id: "staff", label: "Staff", href: "/#staff", icon: Users },
-  { id: "founder", label: "Founder", href: "/founder", icon: Crown },
+  { id: "founder", label: "Founders", href: "/founder", icon: Crown },
 ];
 const DESKTOP = ["home", "features", "store", "how-to-buy", "gallery", "staff", "founder"];
 const MOBILE_TABS = ["home", "store", "staff", "founder"];
@@ -98,8 +98,8 @@ export default function Navbar() {
           aria-label="Main"
           className={`pointer-events-auto mx-auto flex max-w-[1240px] items-center justify-between gap-3 rounded-full border px-2 transition-[height,background-color,border-color,box-shadow] duration-300 ${
             scrolled
-              ? "h-14 border-ink-700/80 bg-ink-950/80 shadow-[0_10px_30px_rgba(3,6,32,0.55)] backdrop-blur-xl"
-              : "h-16 border-ink-800 bg-ink-900/70 backdrop-blur-md"
+              ? "h-14 border-ink-700/80 bg-ink-950/92 shadow-[0_10px_30px_rgba(3,6,32,0.55)] backdrop-blur-sm"
+              : "h-16 border-ink-800 bg-ink-900/90"
           }`}
         >
           <Link href="/#home" className="flex shrink-0 items-center gap-2 rounded-full py-1 pl-1 pr-3 transition-colors hover:bg-ink-800/70">
@@ -167,7 +167,7 @@ export default function Navbar() {
         <LayoutGroup id="mobile-nav">
           <nav
             aria-label="Main (mobile)"
-            className="pointer-events-auto mx-auto flex max-w-md items-center justify-between rounded-full border border-ink-700/80 bg-ink-950/85 p-1.5 shadow-[0_12px_32px_rgba(3,6,32,0.6)] backdrop-blur-xl"
+            className="pointer-events-auto mx-auto flex max-w-md items-center justify-between rounded-full border border-ink-700/80 bg-ink-950/95 p-1.5 shadow-[0_12px_32px_rgba(3,6,32,0.6)] backdrop-blur-sm"
           >
             {[...MOBILE_TABS.map(byId), { id: "more", label: "More", href: "", icon: Ellipsis }].map((it) => {
               const on = it.id === "more" ? moreActive || sheet : active === it.id && !sheet;
